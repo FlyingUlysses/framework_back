@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.siniswift.dao.RtimeDao" >
+
+    <resultMap id="BaseResultMap" type="com.siniswift.entity.RtimeEntity" >
+        <id column="RTIME_ID" property="rtimeId" jdbcType="VARCHAR" />
+        <result column="CODE_RESTRICTION" property="codeRestriction" jdbcType="VARCHAR" />
+        <result column="VAL_DELETED" property="valDeleted" jdbcType="NUMERIC" />
+        <result column="TXT_NOTAM_INFO" property="txtNotamInfo" jdbcType="CLOB" />
+        <result column="TXT_LASTMODIFY" property="txtLastmodify" jdbcType="VARCHAR" />
+        <result column="DATE_LASTMODIFY" property="dateLastmodify" jdbcType="TIMESTAMP" />
+        <result column="CODE_STATUS" property="codeStatus" jdbcType="VARCHAR" />
+        <result column="TXT_DESIG_SEGMENT" property="txtDesigSegment" jdbcType="CLOB" />
+        <result column="TXT_DESIG_RTIME" property="txtDesigRtime" jdbcType="CLOB" />
+        <result column="TXT_REMARK" property="txtRemark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        RTIME_ID, CODE_RESTRICTION, VAL_DELETED, TXT_NOTAM_INFO, TXT_LASTMODIFY, DATE_LASTMODIFY, 
+        CODE_STATUS, TXT_DESIG_SEGMENT, TXT_DESIG_RTIME, TXT_REMARK
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from AIPS_ADMIN.RTIME
+        where RTIME_ID = #{rtimeId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from AIPS_ADMIN.RTIME
+        where RTIME_ID = #{rtimeId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.siniswift.entity.RtimeEntity" >
+        insert into AIPS_ADMIN.RTIME (RTIME_ID, CODE_RESTRICTION, VAL_DELETED, 
+            TXT_NOTAM_INFO, TXT_LASTMODIFY, DATE_LASTMODIFY, 
+            CODE_STATUS, TXT_DESIG_SEGMENT, TXT_DESIG_RTIME, 
+            TXT_REMARK)
+        values (#{rtimeId,jdbcType=VARCHAR}, #{codeRestriction,jdbcType=VARCHAR}, #{valDeleted,jdbcType=NUMERIC}, 
+            #{txtNotamInfo,jdbcType=CLOB}, #{txtLastmodify,jdbcType=VARCHAR}, #{dateLastmodify,jdbcType=TIMESTAMP}, 
+            #{codeStatus,jdbcType=VARCHAR}, #{txtDesigSegment,jdbcType=CLOB}, #{txtDesigRtime,jdbcType=CLOB}, 
+            #{txtRemark,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.siniswift.entity.RtimeEntity" >
+        insert into AIPS_ADMIN.RTIME
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="rtimeId != null" >
+                RTIME_ID,
+            </if>
+            <if test="codeRestriction != null" >
+                CODE_RESTRICTION,
+            </if>
+            <if test="valDeleted != null" >
+                VAL_DELETED,
+            </if>
+            <if test="txtNotamInfo != null" >
+                TXT_NOTAM_INFO,
+            </if>
+            <if test="txtLastmodify != null" >
+                TXT_LASTMODIFY,
+            </if>
+            <if test="dateLastmodify != null" >
+                DATE_LASTMODIFY,
+            </if>
+            <if test="codeStatus != null" >
+                CODE_STATUS,
+            </if>
+            <if test="txtDesigSegment != null" >
+                TXT_DESIG_SEGMENT,
+            </if>
+            <if test="txtDesigRtime != null" >
+                TXT_DESIG_RTIME,
+            </if>
+            <if test="txtRemark != null" >
+                TXT_REMARK,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="rtimeId != null" >
+                #{rtimeId,jdbcType=VARCHAR},
+            </if>
+            <if test="codeRestriction != null" >
+                #{codeRestriction,jdbcType=VARCHAR},
+            </if>
+            <if test="valDeleted != null" >
+                #{valDeleted,jdbcType=NUMERIC},
+            </if>
+            <if test="txtNotamInfo != null" >
+                #{txtNotamInfo,jdbcType=CLOB},
+            </if>
+            <if test="txtLastmodify != null" >
+                #{txtLastmodify,jdbcType=VARCHAR},
+            </if>
+            <if test="dateLastmodify != null" >
+                #{dateLastmodify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="codeStatus != null" >
+                #{codeStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="txtDesigSegment != null" >
+                #{txtDesigSegment,jdbcType=CLOB},
+            </if>
+            <if test="txtDesigRtime != null" >
+                #{txtDesigRtime,jdbcType=CLOB},
+            </if>
+            <if test="txtRemark != null" >
+                #{txtRemark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.entity.RtimeEntity" >
+        update AIPS_ADMIN.RTIME
+        <set >
+            <if test="codeRestriction != null" >
+                CODE_RESTRICTION = #{codeRestriction,jdbcType=VARCHAR},
+            </if>
+            <if test="valDeleted != null" >
+                VAL_DELETED = #{valDeleted,jdbcType=NUMERIC},
+            </if>
+            <if test="txtNotamInfo != null" >
+                TXT_NOTAM_INFO = #{txtNotamInfo,jdbcType=CLOB},
+            </if>
+            <if test="txtLastmodify != null" >
+                TXT_LASTMODIFY = #{txtLastmodify,jdbcType=VARCHAR},
+            </if>
+            <if test="dateLastmodify != null" >
+                DATE_LASTMODIFY = #{dateLastmodify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="codeStatus != null" >
+                CODE_STATUS = #{codeStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="txtDesigSegment != null" >
+                TXT_DESIG_SEGMENT = #{txtDesigSegment,jdbcType=CLOB},
+            </if>
+            <if test="txtDesigRtime != null" >
+                TXT_DESIG_RTIME = #{txtDesigRtime,jdbcType=CLOB},
+            </if>
+            <if test="txtRemark != null" >
+                TXT_REMARK = #{txtRemark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where CODE_RESTRICTION = #{codeRestriction,jdbcType=VARCHAR}
+    </update>
+
+     <update id="updateState" parameterType="java.lang.String" >
+        update AIPS_ADMIN.RTIME
+        set VAL_DELETED = #{valDeleted,jdbcType=NUMERIC},
+        where CODE_RESTRICTION = #{codeRestriction,jdbcType=VARCHAR}
+    </update>
+    
+    <select id="selectByKey" parameterType="java.lang.String" resultType="java.lang.Integer">
+    	SELECT "COUNT"(1) AS "count" FROM "AIPS_ADMIN"."RTIME" 
+		WHERE CODE_RESTRICTION = #{codeRestriction,jdbcType=VARCHAR}
+    </select>
+</mapper>
