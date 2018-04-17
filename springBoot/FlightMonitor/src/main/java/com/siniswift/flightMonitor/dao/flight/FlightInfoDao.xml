@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.flight.FlightInfoDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.flight.FlightInfoEntity">
+    <id column="FLIGHT_INFO_ID" jdbcType="VARCHAR" property="flightInfoId" />
+    <result column="FLIGHT_DATE" jdbcType="DATE" property="flightDate" />
+    <result column="FLIGHT_NO" jdbcType="VARCHAR" property="flightNo" />
+    <result column="DEPARTURE_AIRPORT" jdbcType="VARCHAR" property="departureAirport" />
+    <result column="DEPARTURE_ABBR" jdbcType="VARCHAR" property="departureAbbr" />
+    <result column="ARRIVAL_AIRPORT" jdbcType="VARCHAR" property="arrivalAirport" />
+    <result column="ARRIVAL_ABBR" jdbcType="VARCHAR" property="arrivalAbbr" />
+    <result column="STD" jdbcType="DATE" property="std" />
+    <result column="STA" jdbcType="DATE" property="sta" />
+    <result column="AIRCRAFT_TYPE" jdbcType="VARCHAR" property="aircraftType" />
+    <result column="REG_CODE" jdbcType="VARCHAR" property="regCode" />
+    <result column="ETD" jdbcType="DATE" property="etd" />
+    <result column="ATD" jdbcType="DATE" property="atd" />
+    <result column="ETA" jdbcType="DATE" property="eta" />
+    <result column="ATA" jdbcType="DATE" property="ata" />
+    <result column="DIV1AIRPORT4CODE" jdbcType="VARCHAR" property="div1airport4code" />
+    <result column="DIV2AIRPORT4CODE" jdbcType="VARCHAR" property="div2airport4code" />
+    <result column="DIV1CITYNAME" jdbcType="VARCHAR" property="div1cityname" />
+    <result column="DIV2CITYNAME" jdbcType="VARCHAR" property="div2cityname" />
+    <result column="VAL_MADEPAC" jdbcType="DECIMAL" property="valMadepac" />
+    <result column="VAL_UPLOADPAC" jdbcType="DECIMAL" property="valUploadpac" />
+    <result column="BOARDINGTIME" jdbcType="DATE" property="boardingtime" />
+    <result column="CLOSINGTIME" jdbcType="DATE" property="closingtime" />
+    <result column="PASSENGERS" jdbcType="VARCHAR" property="passengers" />
+    <result column="DEP3CODE" jdbcType="VARCHAR" property="dep3code" />
+    <result column="ARR3CODE" jdbcType="VARCHAR" property="arr3code" />
+    <result column="RELEASE_ID" jdbcType="VARCHAR" property="releaseId" />
+    <result column="CANCELFLIGHT" jdbcType="DECIMAL" property="cancelflight" />
+    <result column="CREW_LINK_LINE" jdbcType="DECIMAL" property="crewLinkLine" />
+    <result column="STEW_LINK_LINE" jdbcType="DECIMAL" property="stewLinkLine" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FLIGHT_INFO_ID, FLIGHT_DATE, FLIGHT_NO, DEPARTURE_AIRPORT, DEPARTURE_ABBR, ARRIVAL_AIRPORT, 
+    ARRIVAL_ABBR, STD, STA, AIRCRAFT_TYPE, REG_CODE, ETD, ATD, ETA, ATA, DIV1AIRPORT4CODE, 
+    DIV2AIRPORT4CODE, DIV1CITYNAME, DIV2CITYNAME, VAL_MADEPAC, VAL_UPLOADPAC, BOARDINGTIME, 
+    CLOSINGTIME, PASSENGERS, DEP3CODE, ARR3CODE, RELEASE_ID, CANCELFLIGHT, CREW_LINK_LINE, 
+    STEW_LINK_LINE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from FLIGHT_INFO
+    where FLIGHT_INFO_ID = #{flightInfoId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from FLIGHT_INFO
+    where FLIGHT_INFO_ID = #{flightInfoId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.flight.FlightInfoEntity">
+    <selectKey keyProperty="flightInfoId" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into FLIGHT_INFO (FLIGHT_DATE, FLIGHT_NO, DEPARTURE_AIRPORT, 
+      DEPARTURE_ABBR, ARRIVAL_AIRPORT, ARRIVAL_ABBR, 
+      STD, STA, AIRCRAFT_TYPE, REG_CODE, 
+      ETD, ATD, ETA, ATA, 
+      DIV1AIRPORT4CODE, DIV2AIRPORT4CODE, DIV1CITYNAME, 
+      DIV2CITYNAME, VAL_MADEPAC, VAL_UPLOADPAC, 
+      BOARDINGTIME, CLOSINGTIME, PASSENGERS, 
+      DEP3CODE, ARR3CODE, RELEASE_ID, 
+      CANCELFLIGHT, CREW_LINK_LINE, STEW_LINK_LINE
+      )
+    values (#{flightDate,jdbcType=DATE}, #{flightNo,jdbcType=VARCHAR}, #{departureAirport,jdbcType=VARCHAR}, 
+      #{departureAbbr,jdbcType=VARCHAR}, #{arrivalAirport,jdbcType=VARCHAR}, #{arrivalAbbr,jdbcType=VARCHAR}, 
+      #{std,jdbcType=DATE}, #{sta,jdbcType=DATE}, #{aircraftType,jdbcType=VARCHAR}, #{regCode,jdbcType=VARCHAR}, 
+      #{etd,jdbcType=DATE}, #{atd,jdbcType=DATE}, #{eta,jdbcType=DATE}, #{ata,jdbcType=DATE}, 
+      #{div1airport4code,jdbcType=VARCHAR}, #{div2airport4code,jdbcType=VARCHAR}, #{div1cityname,jdbcType=VARCHAR}, 
+      #{div2cityname,jdbcType=VARCHAR}, #{valMadepac,jdbcType=DECIMAL}, #{valUploadpac,jdbcType=DECIMAL}, 
+      #{boardingtime,jdbcType=DATE}, #{closingtime,jdbcType=DATE}, #{passengers,jdbcType=VARCHAR}, 
+      #{dep3code,jdbcType=VARCHAR}, #{arr3code,jdbcType=VARCHAR}, #{releaseId,jdbcType=VARCHAR}, 
+      #{cancelflight,jdbcType=DECIMAL}, #{crewLinkLine,jdbcType=DECIMAL}, #{stewLinkLine,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.flight.FlightInfoEntity">
+    <selectKey keyProperty="flightInfoId" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into FLIGHT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flightDate != null">
+        FLIGHT_DATE,
+      </if>
+      <if test="flightNo != null">
+        FLIGHT_NO,
+      </if>
+      <if test="departureAirport != null">
+        DEPARTURE_AIRPORT,
+      </if>
+      <if test="departureAbbr != null">
+        DEPARTURE_ABBR,
+      </if>
+      <if test="arrivalAirport != null">
+        ARRIVAL_AIRPORT,
+      </if>
+      <if test="arrivalAbbr != null">
+        ARRIVAL_ABBR,
+      </if>
+      <if test="std != null">
+        STD,
+      </if>
+      <if test="sta != null">
+        STA,
+      </if>
+      <if test="aircraftType != null">
+        AIRCRAFT_TYPE,
+      </if>
+      <if test="regCode != null">
+        REG_CODE,
+      </if>
+      <if test="etd != null">
+        ETD,
+      </if>
+      <if test="atd != null">
+        ATD,
+      </if>
+      <if test="eta != null">
+        ETA,
+      </if>
+      <if test="ata != null">
+        ATA,
+      </if>
+      <if test="div1airport4code != null">
+        DIV1AIRPORT4CODE,
+      </if>
+      <if test="div2airport4code != null">
+        DIV2AIRPORT4CODE,
+      </if>
+      <if test="div1cityname != null">
+        DIV1CITYNAME,
+      </if>
+      <if test="div2cityname != null">
+        DIV2CITYNAME,
+      </if>
+      <if test="valMadepac != null">
+        VAL_MADEPAC,
+      </if>
+      <if test="valUploadpac != null">
+        VAL_UPLOADPAC,
+      </if>
+      <if test="boardingtime != null">
+        BOARDINGTIME,
+      </if>
+      <if test="closingtime != null">
+        CLOSINGTIME,
+      </if>
+      <if test="passengers != null">
+        PASSENGERS,
+      </if>
+      <if test="dep3code != null">
+        DEP3CODE,
+      </if>
+      <if test="arr3code != null">
+        ARR3CODE,
+      </if>
+      <if test="releaseId != null">
+        RELEASE_ID,
+      </if>
+      <if test="cancelflight != null">
+        CANCELFLIGHT,
+      </if>
+      <if test="crewLinkLine != null">
+        CREW_LINK_LINE,
+      </if>
+      <if test="stewLinkLine != null">
+        STEW_LINK_LINE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flightDate != null">
+        #{flightDate,jdbcType=DATE},
+      </if>
+      <if test="flightNo != null">
+        #{flightNo,jdbcType=VARCHAR},
+      </if>
+      <if test="departureAirport != null">
+        #{departureAirport,jdbcType=VARCHAR},
+      </if>
+      <if test="departureAbbr != null">
+        #{departureAbbr,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalAirport != null">
+        #{arrivalAirport,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalAbbr != null">
+        #{arrivalAbbr,jdbcType=VARCHAR},
+      </if>
+      <if test="std != null">
+        #{std,jdbcType=DATE},
+      </if>
+      <if test="sta != null">
+        #{sta,jdbcType=DATE},
+      </if>
+      <if test="aircraftType != null">
+        #{aircraftType,jdbcType=VARCHAR},
+      </if>
+      <if test="regCode != null">
+        #{regCode,jdbcType=VARCHAR},
+      </if>
+      <if test="etd != null">
+        #{etd,jdbcType=DATE},
+      </if>
+      <if test="atd != null">
+        #{atd,jdbcType=DATE},
+      </if>
+      <if test="eta != null">
+        #{eta,jdbcType=DATE},
+      </if>
+      <if test="ata != null">
+        #{ata,jdbcType=DATE},
+      </if>
+      <if test="div1airport4code != null">
+        #{div1airport4code,jdbcType=VARCHAR},
+      </if>
+      <if test="div2airport4code != null">
+        #{div2airport4code,jdbcType=VARCHAR},
+      </if>
+      <if test="div1cityname != null">
+        #{div1cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="div2cityname != null">
+        #{div2cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="valMadepac != null">
+        #{valMadepac,jdbcType=DECIMAL},
+      </if>
+      <if test="valUploadpac != null">
+        #{valUploadpac,jdbcType=DECIMAL},
+      </if>
+      <if test="boardingtime != null">
+        #{boardingtime,jdbcType=DATE},
+      </if>
+      <if test="closingtime != null">
+        #{closingtime,jdbcType=DATE},
+      </if>
+      <if test="passengers != null">
+        #{passengers,jdbcType=VARCHAR},
+      </if>
+      <if test="dep3code != null">
+        #{dep3code,jdbcType=VARCHAR},
+      </if>
+      <if test="arr3code != null">
+        #{arr3code,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseId != null">
+        #{releaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelflight != null">
+        #{cancelflight,jdbcType=DECIMAL},
+      </if>
+      <if test="crewLinkLine != null">
+        #{crewLinkLine,jdbcType=DECIMAL},
+      </if>
+      <if test="stewLinkLine != null">
+        #{stewLinkLine,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.flight.FlightInfoEntity">
+    update FLIGHT_INFO
+    <set>
+      <if test="flightDate != null">
+        FLIGHT_DATE = #{flightDate,jdbcType=DATE},
+      </if>
+      <if test="flightNo != null">
+        FLIGHT_NO = #{flightNo,jdbcType=VARCHAR},
+      </if>
+      <if test="departureAirport != null">
+        DEPARTURE_AIRPORT = #{departureAirport,jdbcType=VARCHAR},
+      </if>
+      <if test="departureAbbr != null">
+        DEPARTURE_ABBR = #{departureAbbr,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalAirport != null">
+        ARRIVAL_AIRPORT = #{arrivalAirport,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalAbbr != null">
+        ARRIVAL_ABBR = #{arrivalAbbr,jdbcType=VARCHAR},
+      </if>
+      <if test="std != null">
+        STD = #{std,jdbcType=DATE},
+      </if>
+      <if test="sta != null">
+        STA = #{sta,jdbcType=DATE},
+      </if>
+      <if test="aircraftType != null">
+        AIRCRAFT_TYPE = #{aircraftType,jdbcType=VARCHAR},
+      </if>
+      <if test="regCode != null">
+        REG_CODE = #{regCode,jdbcType=VARCHAR},
+      </if>
+      <if test="etd != null">
+        ETD = #{etd,jdbcType=DATE},
+      </if>
+      <if test="atd != null">
+        ATD = #{atd,jdbcType=DATE},
+      </if>
+      <if test="eta != null">
+        ETA = #{eta,jdbcType=DATE},
+      </if>
+      <if test="ata != null">
+        ATA = #{ata,jdbcType=DATE},
+      </if>
+      <if test="div1airport4code != null">
+        DIV1AIRPORT4CODE = #{div1airport4code,jdbcType=VARCHAR},
+      </if>
+      <if test="div2airport4code != null">
+        DIV2AIRPORT4CODE = #{div2airport4code,jdbcType=VARCHAR},
+      </if>
+      <if test="div1cityname != null">
+        DIV1CITYNAME = #{div1cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="div2cityname != null">
+        DIV2CITYNAME = #{div2cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="valMadepac != null">
+        VAL_MADEPAC = #{valMadepac,jdbcType=DECIMAL},
+      </if>
+      <if test="valUploadpac != null">
+        VAL_UPLOADPAC = #{valUploadpac,jdbcType=DECIMAL},
+      </if>
+      <if test="boardingtime != null">
+        BOARDINGTIME = #{boardingtime,jdbcType=DATE},
+      </if>
+      <if test="closingtime != null">
+        CLOSINGTIME = #{closingtime,jdbcType=DATE},
+      </if>
+      <if test="passengers != null">
+        PASSENGERS = #{passengers,jdbcType=VARCHAR},
+      </if>
+      <if test="dep3code != null">
+        DEP3CODE = #{dep3code,jdbcType=VARCHAR},
+      </if>
+      <if test="arr3code != null">
+        ARR3CODE = #{arr3code,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseId != null">
+        RELEASE_ID = #{releaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelflight != null">
+        CANCELFLIGHT = #{cancelflight,jdbcType=DECIMAL},
+      </if>
+      <if test="crewLinkLine != null">
+        CREW_LINK_LINE = #{crewLinkLine,jdbcType=DECIMAL},
+      </if>
+      <if test="stewLinkLine != null">
+        STEW_LINK_LINE = #{stewLinkLine,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FLIGHT_INFO_ID = #{flightInfoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.flight.FlightInfoEntity">
+    update FLIGHT_INFO
+    set FLIGHT_DATE = #{flightDate,jdbcType=DATE},
+      FLIGHT_NO = #{flightNo,jdbcType=VARCHAR},
+      DEPARTURE_AIRPORT = #{departureAirport,jdbcType=VARCHAR},
+      DEPARTURE_ABBR = #{departureAbbr,jdbcType=VARCHAR},
+      ARRIVAL_AIRPORT = #{arrivalAirport,jdbcType=VARCHAR},
+      ARRIVAL_ABBR = #{arrivalAbbr,jdbcType=VARCHAR},
+      STD = #{std,jdbcType=DATE},
+      STA = #{sta,jdbcType=DATE},
+      AIRCRAFT_TYPE = #{aircraftType,jdbcType=VARCHAR},
+      REG_CODE = #{regCode,jdbcType=VARCHAR},
+      ETD = #{etd,jdbcType=DATE},
+      ATD = #{atd,jdbcType=DATE},
+      ETA = #{eta,jdbcType=DATE},
+      ATA = #{ata,jdbcType=DATE},
+      DIV1AIRPORT4CODE = #{div1airport4code,jdbcType=VARCHAR},
+      DIV2AIRPORT4CODE = #{div2airport4code,jdbcType=VARCHAR},
+      DIV1CITYNAME = #{div1cityname,jdbcType=VARCHAR},
+      DIV2CITYNAME = #{div2cityname,jdbcType=VARCHAR},
+      VAL_MADEPAC = #{valMadepac,jdbcType=DECIMAL},
+      VAL_UPLOADPAC = #{valUploadpac,jdbcType=DECIMAL},
+      BOARDINGTIME = #{boardingtime,jdbcType=DATE},
+      CLOSINGTIME = #{closingtime,jdbcType=DATE},
+      PASSENGERS = #{passengers,jdbcType=VARCHAR},
+      DEP3CODE = #{dep3code,jdbcType=VARCHAR},
+      ARR3CODE = #{arr3code,jdbcType=VARCHAR},
+      RELEASE_ID = #{releaseId,jdbcType=VARCHAR},
+      CANCELFLIGHT = #{cancelflight,jdbcType=DECIMAL},
+      CREW_LINK_LINE = #{crewLinkLine,jdbcType=DECIMAL},
+      STEW_LINK_LINE = #{stewLinkLine,jdbcType=DECIMAL}
+    where FLIGHT_INFO_ID = #{flightInfoId,jdbcType=VARCHAR}
+  </update>
+  
+  <resultMap id="SimpleAirportInfo" type="com.siniswift.flightMonitor.pojo.SimpleAirportInfo">
+    <result column="FLIGHT_NO" jdbcType="VARCHAR" property="flightNo" />
+    <result column="DEPARTURE_AIRPORT" jdbcType="VARCHAR" property="departureAirport" />
+    <result column="ARRIVAL_AIRPORT" jdbcType="VARCHAR" property="arrivalAirport" />
+    <result column="STD" jdbcType="VARCHAR" property="std" />
+    <result column="STA" jdbcType="VARCHAR" property="sta" />
+    <result column="DEPARTUREAIRPORTNAME" jdbcType="VARCHAR"  property="departureAirportName" />
+    <result column="ARRIVALAIRPORTNAME" jdbcType="VARCHAR"  property="arrivalAirportName" />
+  </resultMap>
+  
+  <select id="getAllSimpleAirportInfo" resultMap="SimpleAirportInfo">
+  	select f.FLIGHT_NO,f.DEPARTURE_AIRPORT,f.ARRIVAL_AIRPORT,
+  	"TO_CHAR"(f.STD,'MM-DD hh24:mi') STD,"TO_CHAR"(f.STA,'MM-DD hh24:mi') STA,
+    (select AIRPORT_NAME from AIRPORT a where a.AIRPORT4CODE  = f.DEPARTURE_AIRPORT ) DEPARTUREAIRPORTNAME,
+    (select AIRPORT_NAME from AIRPORT a where a.AIRPORT4CODE  = f.ARRIVAL_AIRPORT ) ARRIVALAIRPORTNAME
+     from FLIGHT_INFO f 
+  </select>
+  
+ <select id="getFlightListByAirPort" resultMap="SimpleAirportInfo">
+  	select f.FLIGHT_NO,f.DEPARTURE_AIRPORT,f.ARRIVAL_AIRPORT,
+  	"TO_CHAR"(f.STD,'MM-DD hh24:mi') STD,"TO_CHAR"(f.STA,'MM-DD hh24:mi') STA,
+    (select AIRPORT_NAME from AIRPORT a where a.AIRPORT4CODE  = f.DEPARTURE_AIRPORT ) DEPARTUREAIRPORTNAME,
+    (select AIRPORT_NAME from AIRPORT a where a.AIRPORT4CODE  = f.ARRIVAL_AIRPORT ) ARRIVALAIRPORTNAME
+     from FLIGHT_INFO f where ( f.DEPARTURE_AIRPORT =  #{code,jdbcType=VARCHAR} or f.ARRIVAL_AIRPORT = #{code,jdbcType=VARCHAR})
+  </select>
+  
+</mapper>

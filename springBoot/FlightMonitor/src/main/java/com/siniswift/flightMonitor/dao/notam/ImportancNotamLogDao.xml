@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.notam.ImportancNotamLogDao">
+
+<resultMap type="com.siniswift.flightMonitor.pojo.AirportNotam" id="AirportNotam">
+	 <result column="id" jdbcType="DECIMAL" property="id" />
+	 <result column="airport" jdbcType="VARCHAR" property="airport" />
+	 <result column="content" jdbcType="VARCHAR" property="content" />
+	 <result column="start_time" jdbcType="VARCHAR" property="start_time" />
+	 <result column="end_time" jdbcType="VARCHAR" property="end_time" />
+</resultMap>
+
+<select resultMap="AirportNotam" id="getAllAirportNotam">
+	select t.importanc_notam_log_id id,t.cnvctype type,t.cnvcairportcode airport,t.show_comment content,
+	"TO_CHAR"(t.cndtstarttime,'YYYY-MM-DD hh24:mi') start_time,"TO_CHAR"(t.cndtendtime,'YYYY-MM-DD hh24:mi') end_time
+	from IMPORTANC_NOTAM_LOG t 
+	where t.cnvctype = '机场关闭' and t.IS_VALID ='Y'
+</select>
+
+<select resultMap="AirportNotam" id="getAirportNotamBySomeAirport">
+	select t.importanc_notam_log_id id,t.cnvctype type,t.cnvcairportcode airport,t.show_comment content,
+	"TO_CHAR"(t.cndtstarttime,'YYYY-MM-DD hh24:mi') start_time,"TO_CHAR"(t.cndtendtime,'YYYY-MM-DD hh24:mi') end_time
+	from IMPORTANC_NOTAM_LOG t 
+	where t.cnvctype = '机场关闭' and t.IS_VALID ='Y' and t.cnvcairportcode in 
+	<foreach collection="airportList" item="airport" index="index"  
+            open="(" close=")" separator=",">  
+            #{airport}  
+    </foreach>  
+</select>
+
+<resultMap type="com.siniswift.flightMonitor.pojo.SimpleNotam" id="simpleNotam">
+	 <result column="important_id" jdbcType="DECIMAL" property="importantId" />
+	 <result column="item_id" jdbcType="DECIMAL" property="itemId" />
+	 <result column="airport" jdbcType="VARCHAR" property="airport" />
+	 <result column="start_str" jdbcType="VARCHAR" property="startStr" />
+	 <result column="end_str" jdbcType="VARCHAR" property="endStr" />
+	 <result column="start_time"  property="start" />
+	 <result column="end_time"  property="end" />
+	 <result column="content"  property="content" />
+</resultMap>
+
+<select id="getSimpleNotamListByTime" resultMap="simpleNotam" >
+  SELECT INL.IMPORTANC_NOTAM_LOG_ID important_id,idl.ITEM_D_LOG_ID item_id,inl.CNVCAIRPORTCODE airport,
+    ( case when idl.item_d_log_id is null then inl.cndtstarttime else  idl.date_start end )start_time,
+	( case when idl.item_d_log_id is null then inl.cndtendtime else  idl.date_end end) end_time
+   from
+  (select * from  IMPORTANC_NOTAM_LOG where cnvctype = '机场关闭' and IS_DELETED ='N' and IS_VALID = 'Y' ) inl
+  left join PRSSD_NOTAM pn on  pn.PRSSD_NOTAM_PK = inl.NOTAM_ID
+  left join item_d_log idl on idl.val_notam_id = pn.prssd_notam_pk
+  where 
+     ( case when idl.item_d_log_id is null then inl.cndtendtime else  idl.date_end end)  <![CDATA[ >= ]]>  to_date( #{start,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi') 
+</select>
+
+<select id="getNotamListByFlight" resultMap="simpleNotam" >
+  SELECT INL.IMPORTANC_NOTAM_LOG_ID important_id,idl.ITEM_D_LOG_ID item_id,inl.CNVCAIRPORTCODE airport,inl.show_comment content,
+	( case when idl.item_d_log_id is null then inl.cndtstarttime else  idl.date_start end )start_time,
+	( case when idl.item_d_log_id is null then inl.cndtendtime else  idl.date_end end) end_time,
+	( case when idl.item_d_log_id is null then "TO_CHAR"(inl.cndtstarttime,'YYYY-MM-DD hh24:mi')  else  "TO_CHAR"(idl.date_start,'YYYY-MM-DD hh24:mi')  end )start_str,
+	( case when idl.item_d_log_id is null then "TO_CHAR"(inl.cndtendtime,'YYYY-MM-DD hh24:mi')  else  "TO_CHAR"(idl.date_end,'YYYY-MM-DD hh24:mi')  end) end_str
+	from
+	  (select * from  IMPORTANC_NOTAM_LOG where cnvctype = '机场关闭' and IS_DELETED ='N' and IS_VALID = 'Y' ) inl
+	  left join PRSSD_NOTAM pn on  pn.PRSSD_NOTAM_PK = inl.NOTAM_ID
+	  left join item_d_log idl on idl.val_notam_id = pn.prssd_notam_pk
+	where
+		(inl.cnvcairportcode = #{start_airport_name,jdbcType=VARCHAR} or inl.cnvcairportcode = #{end_airport_name,jdbcType=VARCHAR})
+  
+</select>
+
+</mapper>

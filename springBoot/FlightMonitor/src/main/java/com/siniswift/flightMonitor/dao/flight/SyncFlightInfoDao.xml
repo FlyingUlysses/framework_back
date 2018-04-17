@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.flight.SyncFlightInfoDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.flight.SyncFlightInfoEntity">
+    <id column="FLIGHT_ID" jdbcType="VARCHAR" property="flightId" />
+    <result column="FLIGHT_NUMBER" jdbcType="VARCHAR" property="flightNumber" />
+    <result column="STD" jdbcType="DATE" property="std" />
+    <result column="STA" jdbcType="DATE" property="sta" />
+    <result column="DEP4CODE" jdbcType="VARCHAR" property="dep4code" />
+    <result column="ARR4CODE" jdbcType="VARCHAR" property="arr4code" />
+    <result column="DEP_CITY_NAME" jdbcType="VARCHAR" property="depCityName" />
+    <result column="ARR_CITY_NAME" jdbcType="VARCHAR" property="arrCityName" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    FLIGHT_ID, FLIGHT_NUMBER, STD, STA, DEP4CODE, ARR4CODE,DEP_CITY_NAME,ARR_CITY_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYNC_FLIGHT_INFO
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYNC_FLIGHT_INFO
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.flight.SyncFlightInfoEntity">
+    insert into SYNC_FLIGHT_INFO (FLIGHT_ID, FLIGHT_NUMBER, STD, 
+      STA, DEP4CODE, ARR4CODE,DEP_CITY_NAME,ARR_CITY_NAME
+      )
+    values (#{flightId,jdbcType=VARCHAR}, #{flightNumber,jdbcType=VARCHAR}, #{std}, 
+      #{sta}, #{dep4code,jdbcType=VARCHAR}, #{arr4code,jdbcType=VARCHAR},
+      #{depCityName,jdbcType=VARCHAR},#{arrCityName,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="saveOrUpdateByFlightId" parameterType="com.siniswift.flightMonitor.entity.flight.SyncFlightInfoEntity" >
+	  <selectKey keyProperty="count" resultType="int" order="BEFORE">
+	    select count(1) count from SYNC_FLIGHT_INFO t where t.FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+	  </selectKey>
+	  <if test="count > 0">
+	    update SYNC_FLIGHT_INFO
+	    set FLIGHT_NUMBER = #{flightNumber,jdbcType=VARCHAR},
+	      STD = #{std},
+	      STA = #{sta},
+	      DEP4CODE = #{dep4code,jdbcType=VARCHAR},
+	      ARR4CODE = #{arr4code,jdbcType=VARCHAR},
+	      DEP_CITY_NAME = #{depCityName,jdbcType=VARCHAR},
+	      ARR_CITY_NAME = #{arrCityName,jdbcType=VARCHAR}
+	    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+	  </if>
+	  <if test="count==0">
+	   insert into SYNC_FLIGHT_INFO (FLIGHT_ID, FLIGHT_NUMBER, STD, 
+	      STA, DEP4CODE, ARR4CODE,DEP_CITY_NAME,ARR_CITY_NAME
+	      )
+	    values (#{flightId,jdbcType=VARCHAR}, #{flightNumber,jdbcType=VARCHAR}, #{std}, 
+	      #{sta}, #{dep4code,jdbcType=VARCHAR}, #{arr4code,jdbcType=VARCHAR},
+	      #{depCityName,jdbcType=VARCHAR},#{arrCityName,jdbcType=VARCHAR}
+	      )
+	  </if>
+</insert>
+
+ <resultMap id="SimpleFlightInfo" type="com.siniswift.flightMonitor.pojo.SimpleFlightInfo">
+   	<id column="FLIGHT_ID" jdbcType="VARCHAR" property="flightId" />
+    <result column="FLIGHT_NUMBER" jdbcType="VARCHAR" property="flightNumber" />
+    <result column="STD"  property="std" />
+    <result column="STA"  property="sta" />
+    <result column="DEP4CODE" jdbcType="VARCHAR" property="dep4code" />
+    <result column="ARR4CODE" jdbcType="VARCHAR" property="arr4code" />
+    <result column="DEP_CITY_NAME" jdbcType="VARCHAR"  property="departureAirportName" />
+    <result column="ARR_CITY_NAME" jdbcType="VARCHAR"  property="arrivalAirportName" />
+ </resultMap>
+
+  <select id="getFlightListByTime" resultMap="SimpleFlightInfo">
+    select 
+   		    <include refid="Base_Column_List" />
+    from SYNC_FLIGHT_INFO f
+    where ( f.STD <![CDATA[ >= ]]>  to_date( #{start,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi')
+    	 and f.STA <![CDATA[ <= ]]>  to_date( #{end,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi') )
+  </select>
+  
+</mapper>

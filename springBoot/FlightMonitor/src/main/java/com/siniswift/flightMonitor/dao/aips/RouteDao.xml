@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.aips.RouteDao">
+	
+	<select id="getActiveUser"  resultType="String">
+	   select t.txt_username from NAVDATA_PERIOD t where t.val_iscurrent =1
+	</select>
+		
+	<resultMap type="com.siniswift.flightMonitor.pojo.SimpleRoute" id="simpleRouteMap">
+		 <result column="id" jdbcType="VARCHAR" property="id" />
+		 <result column="code" jdbcType="VARCHAR" property="code" />
+		 <result column="start_airport" jdbcType="VARCHAR" property="startAirport" />
+		 <result column="end_airport" jdbcType="VARCHAR" property="endAirport" />
+		 <result column="cfp" jdbcType="VARCHAR" property="cfp" />
+	</resultMap>
+	
+	<select id="getRouteListByAirport"  resultMap="simpleRouteMap">
+	  select t.company_enroute_id id,t.code_name code, t.code_startad start_airport,t.code_endtad end_airport,t.txt_desig_cfp cfp
+	  from ${user}.company_enroute t
+	   where 
+		  t.code_startad= #{start,jdbcType=VARCHAR} and t.code_endtad= #{end,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>
