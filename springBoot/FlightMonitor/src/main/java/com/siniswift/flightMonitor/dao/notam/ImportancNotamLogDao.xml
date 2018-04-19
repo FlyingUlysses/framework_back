@@ -39,7 +39,7 @@
 	 <result column="content"  property="content" />
 </resultMap>
 
-<select id="getSimpleNotamListByTime" resultMap="simpleNotam" >
+<select id="ListSimpleNotamByTime" resultMap="simpleNotam" >
   SELECT INL.IMPORTANC_NOTAM_LOG_ID important_id,idl.ITEM_D_LOG_ID item_id,inl.CNVCAIRPORTCODE airport,
     ( case when idl.item_d_log_id is null then inl.cndtstarttime else  idl.date_start end )start_time,
 	( case when idl.item_d_log_id is null then inl.cndtendtime else  idl.date_end end) end_time
@@ -51,7 +51,7 @@
      ( case when idl.item_d_log_id is null then inl.cndtendtime else  idl.date_end end)  <![CDATA[ >= ]]>  to_date( #{start,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi') 
 </select>
 
-<select id="getNotamListByFlight" resultMap="simpleNotam" >
+<select id="ListNotamByFlight" resultMap="simpleNotam" >
   SELECT INL.IMPORTANC_NOTAM_LOG_ID important_id,idl.ITEM_D_LOG_ID item_id,inl.CNVCAIRPORTCODE airport,inl.show_comment content,
 	( case when idl.item_d_log_id is null then inl.cndtstarttime else  idl.date_start end )start_time,
 	( case when idl.item_d_log_id is null then inl.cndtendtime else  idl.date_end end) end_time,

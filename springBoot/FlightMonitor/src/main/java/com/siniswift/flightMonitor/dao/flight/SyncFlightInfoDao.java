@@ -22,6 +22,6 @@ public interface SyncFlightInfoDao {
     
     int saveOrUpdateByFlightId(SyncFlightInfoEntity record);
 
-	ArrayList<SimpleFlightInfo> getFlightListByTime(@Param("start")String start, @Param("end")String end);
+	ArrayList<SimpleFlightInfo> ListFlightByTime(@Param("start")String start, @Param("end")String end);
     
 }

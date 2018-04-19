@@ -72,7 +72,7 @@
     <result column="ARR_CITY_NAME" jdbcType="VARCHAR"  property="arrivalAirportName" />
  </resultMap>
 
-  <select id="getFlightListByTime" resultMap="SimpleFlightInfo">
+  <select id="ListFlightByTime" resultMap="SimpleFlightInfo">
     select 
    		    <include refid="Base_Column_List" />
     from SYNC_FLIGHT_INFO f

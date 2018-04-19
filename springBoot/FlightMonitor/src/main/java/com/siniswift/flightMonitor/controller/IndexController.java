@@ -52,10 +52,10 @@ public class IndexController {
 	 * @date:   2018年4月17日
 	 * @Description:首页航班数据磁贴列表请求
 	 */
-	@RequestMapping(value="/index/getFlightListByTime",method=RequestMethod.POST)
+	@RequestMapping(value="/index/ListFlightByTime",method=RequestMethod.POST)
 	@ResponseBody
-	public String getFlightListByTime(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
-		return flightInfoService.getFlightListByTime(type,startTime,endTime);
+	public String ListFlightByTime(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
+		return flightInfoService.ListFlightByTime(type,startTime,endTime);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class IndexController {
 	@RequestMapping(value = "/index/showFlight")
     public ModelAndView showFlight(ModelAndView modelAndView, String start, String end, String start_name,String end_name) {
 		HashMap<String, ArrayList<SimpleNotam>> map = new HashMap<String,ArrayList<SimpleNotam>>();
-	    map.put("list",flightInfoService.getNotamListByFlight(start, end, start_name, end_name));  
+	    map.put("list",flightInfoService.ListNotamByFlight(start, end, start_name, end_name));  
 	    modelAndView.addObject("Map",map);
 		modelAndView.setViewName("/showFlight");
         return modelAndView;

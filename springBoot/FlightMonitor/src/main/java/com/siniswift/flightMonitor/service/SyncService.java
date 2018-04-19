@@ -22,7 +22,6 @@ import com.siniswift.flightMonitor.dao.aips.RouteDao;
 import com.siniswift.flightMonitor.dao.flight.SyncFlightInfoDao;
 import com.siniswift.flightMonitor.entity.flight.SyncFlightInfoEntity;
 import com.siniswift.flightMonitor.pojo.SimpleRoute;
-import com.siniswift.flightMonitor.utils.Constants;
 
 /**
  * @ClassName:  SyncFlightService   
@@ -46,7 +45,7 @@ public class SyncService  {
 	 */
 	@SuppressWarnings("rawtypes")
 	public void getFlight(String start,String end) throws ClientProtocolException, IOException {
-		HttpPost httppost=new HttpPost(Constants.GET_FLIGHT_URL);
+		HttpPost httppost=new HttpPost("http://efb.airchina.com.cn/flightMonitor/DataServiceEx.asmx/GetFlightData");
 		List<NameValuePair> params=new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("startDate",start));
 		params.add(new BasicNameValuePair("endDate",end));

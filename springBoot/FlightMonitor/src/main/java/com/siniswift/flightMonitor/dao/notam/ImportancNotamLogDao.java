@@ -12,7 +12,7 @@ public interface ImportancNotamLogDao {
 	
 	ArrayList<AirportNotam> getAirportNotamBySomeAirport(@Param("airportList") ArrayList<String> airportList);
 	
-	ArrayList<SimpleNotam> getSimpleNotamListByTime(@Param("start")String start,@Param("end") String end);
+	ArrayList<SimpleNotam> ListSimpleNotamByTime(@Param("start")String start,@Param("end") String end);
 	
-	ArrayList<SimpleNotam> getNotamListByFlight(@Param("start_airport_name")String start,@Param("end_airport_name") String end);
+	ArrayList<SimpleNotam> ListNotamByFlight(@Param("start_airport_name")String start,@Param("end_airport_name") String end);
 }

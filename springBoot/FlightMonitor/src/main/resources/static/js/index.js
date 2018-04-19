@@ -21,7 +21,7 @@ $(function(){
 	});
 	
 	$("#reload_button").click(function(){
-		layer.confirm('确认要导入即时数据吗？这将需要一定时间。', {
+		layer.confirm('确认要导入即时航班数据吗？这将需要一定时间。', {
 			  btn: ['确定','取消'] //按钮
 			}, function(){
 				syncFlight();
@@ -117,7 +117,7 @@ function showAirPort(airport){
 function reloadAirportList(){
 	var start_time = $("#start_time_input").val();
 	var end_time = $("#end_time_input").val();
-	var url = "/index/getFlightListByTime";
+	var url = "/index/ListFlightByTime";
 	$.post(url,{type:type,start_time:start_time,end_time:end_time},function(jsonStr,status){
 		var jsonArray = JSON.parse(jsonStr);
 		var strs = "";

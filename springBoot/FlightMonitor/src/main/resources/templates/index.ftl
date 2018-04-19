@@ -99,15 +99,15 @@
                             <span class="profile-ava">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <span class="username">A组</span>
+                            <span class="username">席位一</span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
                             <li class="eborder-top">
-                                <a href="documentation.html"><i class="icon_key_alt"></i> 角色切换</a>
+                                <a href="documentation.html"><i class="icon_key_alt"></i> 席位切换</a>
                             </li>
                             <li >
-                                <a href="#"><i class="icon_profile"></i>角色配置</a>
+                                <a href="#"><i class="icon_profile"></i>席位配置</a>
                             </li>
                             <li>
                                 <a href="login.html"><i class="icon_key_alt"></i>退出登录</a>
@@ -176,6 +176,7 @@
     <script src="/static/lib/scripts.js"></script>
     <!-- layer弹出层 -->
     <script src="/static/lib/layer/layer.js"></script>
+  
    
     
   	<script src="/static/js/myBase.js"></script>

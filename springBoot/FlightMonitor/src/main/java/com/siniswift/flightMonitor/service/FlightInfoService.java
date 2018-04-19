@@ -30,9 +30,9 @@ public class FlightInfoService {
 	 * @date:   2018年4月17日
 	 * @Description:首页磁贴展示
 	 */
-	public String getFlightListByTime(String type,String start,String end){
-		ArrayList<SimpleFlightInfo> flightList = flightInfoDao.getFlightListByTime(start,end);
-		ArrayList<SimpleNotam> notamList = notamDao.getSimpleNotamListByTime(start, end);
+	public String ListFlightByTime(String type,String start,String end){
+		ArrayList<SimpleFlightInfo> flightList = flightInfoDao.ListFlightByTime(start,end);
+		ArrayList<SimpleNotam> notamList = notamDao.ListSimpleNotamByTime(start, end);
 		ArrayList<SimpleFlightInfo> commonList = new ArrayList<SimpleFlightInfo>();
 		ArrayList<SimpleFlightInfo> haveTroubleList = new ArrayList<SimpleFlightInfo>();
 		boolean flag = false;
@@ -76,9 +76,9 @@ public class FlightInfoService {
 	 * @date:   2018年4月17日
 	 * @Description:根据航班查询航班下所有通告
 	 */
-	public ArrayList<SimpleNotam> getNotamListByFlight(String start, String end, String startName,
+	public ArrayList<SimpleNotam> ListNotamByFlight(String start, String end, String startName,
 			String endName) {
-		ArrayList<SimpleNotam> notamList = notamDao.getNotamListByFlight(start,end);
+		ArrayList<SimpleNotam> notamList = notamDao.ListNotamByFlight(start,end);
 		for (SimpleNotam notam : notamList) {
 			if(notam.getAirport().equals(start))
 				notam.setAirport_name(startName);
