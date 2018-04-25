@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
+import com.siniswift.flightMonitor.pojo.AirportNotam;
+import com.siniswift.flightMonitor.pojo.CommonResMsg;
 import com.siniswift.flightMonitor.pojo.SimpleAirportInfo;
+import com.siniswift.flightMonitor.pojo.SimpleFlightInfo;
 import com.siniswift.flightMonitor.pojo.SimpleNotam;
 import com.siniswift.flightMonitor.service.FlightInfoService;
 import com.siniswift.flightMonitor.service.SyncService;
@@ -54,7 +56,7 @@ public class IndexController {
 	 */
 	@RequestMapping(value="/index/ListFlightByTime",method=RequestMethod.POST)
 	@ResponseBody
-	public String ListFlightByTime(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
+	public ArrayList<SimpleFlightInfo> ListFlightByTime(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
 		return flightInfoService.ListFlightByTime(type,startTime,endTime);
 	}
 	
@@ -65,17 +67,17 @@ public class IndexController {
 	 */
 	@RequestMapping(value="/index/syncFlight",method=RequestMethod.POST)
 	@ResponseBody
-	public String syncFlight(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
-		HashMap<String, Object> map = new HashMap<String,Object>();
-		map.put("flag", true);
+	public CommonResMsg syncFlight(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
+		CommonResMsg res = new CommonResMsg();
+		res.setFlag(true);
 		try {
 			sync.getFlight(startTime, endTime);
 		} catch (IOException e) {
-			map.put("flag", false);
-			map.put("msg", "同步即时数据错误！请联系管理员。");
+			res.setFlag(false);
+			res.setMsg("同步即时数据错误！请联系管理员。");
 			e.printStackTrace();
 		}
-		return JSON.toJSONString(map);
+		return res;
 	}
 	
 	/**
@@ -100,7 +102,7 @@ public class IndexController {
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/index/reloadAirPortTable")
 	@ResponseBody
-    public String reloadAirPortTable() {
+    public ArrayList<AirportNotam> reloadAirPortTable() {
         return flightInfoService.getAirPortTable();
     }
 	

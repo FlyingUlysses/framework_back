@@ -35,7 +35,7 @@ public class FlightInfoService {
 	 * @date:   2018年4月17日
 	 * @Description:首页磁贴展示
 	 */
-	public String ListFlightByTime(String type,String start,String end){
+	public ArrayList<SimpleFlightInfo> ListFlightByTime(String type,String start,String end){
 		ArrayList<SimpleFlightInfo> flightList = flightInfoDao.ListFlightByTime(start,end);
 		ArrayList<SimpleNotam> notamList = notamDao.ListSimpleNotamByTime(start, end);
 		ArrayList<SimpleFlightInfo> commonList = new ArrayList<SimpleFlightInfo>();
@@ -73,7 +73,7 @@ public class FlightInfoService {
 		}else if(type.equals("trouble")) {
 			res=haveTroubleList;
 		}
-		return JSON.toJSONString(res);
+		return res;
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class FlightInfoService {
 	 * @Description:机场表格查询   //数据库结构已修改，暂时只维持展示
 	 */
 	@Deprecated
-	public String getAirPortTable() {
+	public ArrayList<AirportNotam> getAirPortTable() {
 		ArrayList<SimpleAirportInfo> infoList = flightInfoDao2.getAllSimpleAirportInfo();
 		ArrayList<AirportNotam> result = new ArrayList<AirportNotam>();
 		ArrayList<String> airportList = new ArrayList<String>();
@@ -127,7 +127,7 @@ public class FlightInfoService {
 			}
 			res.setNotam_list(subs);
 		}
-		return JSON.toJSONString(sortForHaveThroble(result));
+		return sortForHaveThroble(result);
 	}
 	
 	/**

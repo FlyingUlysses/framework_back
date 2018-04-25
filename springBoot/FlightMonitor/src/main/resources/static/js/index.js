@@ -90,8 +90,7 @@ function syncFlight(){
 	var start_time = $("#start_time_input").val();
 	var end_time = $("#end_time_input").val();
 	var url = "/index/syncFlight";
-	$.post(url,{type:"all",start_time:start_time,end_time:end_time},function(jsonStr,status){
-		var obj = JSON.parse(jsonStr);
+	$.post(url,{type:"all",start_time:start_time,end_time:end_time},function(obj,status){
 		if(obj.flag){
 			reloadAirportList();
 			layer.close(lodingIndex);
@@ -129,8 +128,7 @@ function reloadAirportList(){
 	var start_time = $("#start_time_input").val();
 	var end_time = $("#end_time_input").val();
 	var url = "/index/ListFlightByTime";
-	$.post(url,{type:type,start_time:start_time,end_time:end_time},function(jsonStr,status){
-		var jsonArray = JSON.parse(jsonStr);
+	$.post(url,{type:type,start_time:start_time,end_time:end_time},function(jsonArray,status){
 		var strs = "";
 		$.each(jsonArray,function(i,item){
 			if(item.flag){
@@ -151,8 +149,7 @@ function reloadAirportList(){
 
 function reloadAirPortTable(){
 	var url = "/index/reloadAirPortTable";
-	$.get(url,function(jsonStr,status){
-		var res = JSON.parse(jsonStr);
+	$.get(url,function(res,status){
 		var strs = "";
 		if(res && res.length >0){
 			$.each(res,function(i,item){
