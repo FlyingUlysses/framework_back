@@ -55,7 +55,7 @@ function reload(){
 	$("#start_time_input").val( new Date().format("yyyy-MM-dd hh:mm") );
 	$("#end_time_input").val( new Date(new Date().getTime() + 6*3600*1000).format("yyyy-MM-dd hh:mm") );
 	reloadAirportList();
-	reloadFlag = setTimeout('reload()',reloadTime);
+	//reloadFlag = setTimeout('reload()',reloadTime);
 }
 
 function stopReload(){
@@ -114,6 +114,17 @@ function showAirPort(airport){
 	});
 }
 
+function showSeatConfig(){
+	layer.open({
+		  type: 2,
+		  title: false,
+		  area: ['750px', '530px'],
+		  shadeClose: true,
+		  content: "/index/showSeatConfig"
+	});
+}
+
+
 function reloadAirportList(){
 	var start_time = $("#start_time_input").val();
 	var end_time = $("#end_time_input").val();
@@ -146,16 +157,14 @@ function reloadAirPortTable(){
 		if(res && res.length >0){
 			$.each(res,function(i,item){
 				if(item.notam_list.length >0 ){
-					strs +="<tr><td style='vertical-align:middle;' rowspan='"+item.notam_list.length+"'>"+item.airport_name+"</td>"
-					 	 + "<td style='vertical-align:middle;' rowspan='"+item.notam_list.length+"'>"+item.airport+"</td>"
+					strs +="<tr><td style='vertical-align:middle;' rowspan='"+item.notam_list.length+"'>"+item.airport+"</td>"
 						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.notam_list[0].start_time+"</td>"
 						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.notam_list[0].end_time+"</td>"
 						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.notam_list[0].content+"</td>"
 						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >	" 
 						 +		"<a class='btn btn-info  btn-sm' onclick='showAirPort(\""+item.airport+"\")'><i class='fa fa-search'>受限航班</i></a></td></tr>";
 				}else{
-					strs +="<tr><td style='vertical-align:middle;'>"+item.airport_name+"</td>"
-						 + "<td style='vertical-align:middle;' >"+item.airport+"</td>"
+					strs +="<tr><td style='vertical-align:middle;' >"+item.airport+"</td>"
 						 +"<td></td><td></td><td></td><td></td></tr>";
 				}
 				if(item.notam_list.length >1){

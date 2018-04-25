@@ -119,4 +119,15 @@ public class IndexController {
 	    return modelAndView;
     }
 	
+	/**
+	 * @author: wangyong 
+	 * @date:   2018年4月20日
+	 * @Description:展示席位配置页
+	 */
+	@RequestMapping(value = "/index/showSeatConfig")
+	public ModelAndView showSeatConfig(ModelAndView mav) {
+		mav.setViewName("/seatConfig");
+		return mav;
+	}
+	
 }

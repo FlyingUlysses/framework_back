@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @ClassName:  主程序入口   
@@ -16,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 		DataSourceAutoConfiguration.class
 })
 @EnableScheduling
+@EnableTransactionManagement
 public class FlightMonitorApplication {
 	
 	public static void main(String[] args) throws SchedulerException {

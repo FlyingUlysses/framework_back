@@ -17,6 +17,7 @@
   </head>
 
   <style>
+  	table tr th:{display: none};
   </style>
 
   <body>
@@ -103,11 +104,8 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <li class="eborder-top">
-                                <a href="documentation.html"><i class="icon_key_alt"></i> 席位切换</a>
-                            </li>
                             <li >
-                                <a href="#"><i class="icon_profile"></i>席位配置</a>
+                                <a onclick='showSeatConfig();' style='cursor: pointer;'><i class="icon_profile"></i>席位配置</a>
                             </li>
                             <li>
                                 <a href="login.html"><i class="icon_key_alt"></i>退出登录</a>
@@ -136,7 +134,6 @@
                             <section class="panel">
                                 <table class="table  table-advance table-hover table-bordered">
                                		<tr>
-                                       <th style="width:13%;" >机场名称</th>
                                        <th style="width:7%;" >机场编号</th>
                                        <th style="width:11%;text-align:center;">限制开始</th>
                                        <th style="width:11%;text-align:center;">限制结束</th>

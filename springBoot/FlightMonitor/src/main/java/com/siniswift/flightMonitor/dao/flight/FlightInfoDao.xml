@@ -398,9 +398,7 @@
   
   <select id="getAllSimpleAirportInfo" resultMap="SimpleAirportInfo">
   	select f.FLIGHT_NO,f.DEPARTURE_AIRPORT,f.ARRIVAL_AIRPORT,
-  	"TO_CHAR"(f.STD,'MM-DD hh24:mi') STD,"TO_CHAR"(f.STA,'MM-DD hh24:mi') STA,
-    (select AIRPORT_NAME from AIRPORT a where a.AIRPORT4CODE  = f.DEPARTURE_AIRPORT ) DEPARTUREAIRPORTNAME,
-    (select AIRPORT_NAME from AIRPORT a where a.AIRPORT4CODE  = f.ARRIVAL_AIRPORT ) ARRIVALAIRPORTNAME
+  	"TO_CHAR"(f.STD,'MM-DD hh24:mi') STD,"TO_CHAR"(f.STA,'MM-DD hh24:mi') STA
      from FLIGHT_INFO f 
   </select>
   

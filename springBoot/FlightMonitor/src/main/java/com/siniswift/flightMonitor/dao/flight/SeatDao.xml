@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.flight.SeatDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.flight.SeatEntity">
+    <id column="SEAT_ID" jdbcType="VARCHAR" property="seatId" />
+    <result column="SEAT_NAME" jdbcType="VARCHAR" property="seatName" />
+    <result column="STATE" jdbcType="INTEGER" property="state" />
+    <result column="CREATE_TIME"  property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SEAT_ID, SEAT_NAME,STATE,CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SEAT
+    where SEAT_ID = #{seatId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+     from SEAT
+    where SEAT_ID = #{seatId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.flight.SeatEntity">
+    insert into SEAT (SEAT_ID, SEAT_NAME)
+    values (#{seatId,jdbcType=VARCHAR}, #{seatName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.flight.SeatEntity">
+    insert into SEAT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seatId != null">
+        SEAT_ID,
+      </if>
+      <if test="seatName != null">
+        SEAT_NAME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seatId != null">
+        #{seatId,jdbcType=VARCHAR},
+      </if>
+      <if test="seatName != null">
+        #{seatName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+       #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+       #{createTime}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.flight.SeatEntity">
+    update SEAT
+    <set>
+      <if test="seatName != null">
+        SEAT_NAME = #{seatName,jdbcType=VARCHAR},
+      </if>
+       <if test="state != null">
+        STATE = #{state,jdbcType=INTEGER}
+      </if>
+    </set>
+    where SEAT_ID = #{seatId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.flight.SeatEntity">
+    update SEAT
+    set SEAT_NAME = #{seatName,jdbcType=VARCHAR}
+    where SEAT_ID = #{seatId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="listAllSeat" resultMap="BaseResultMap">
+  	select 
+  	  <include refid="Base_Column_List" />
+  	 from SEAT where state =1 order by CREATE_TIME desc 
+  </select>
+  
+  <select id="haveSeatByName" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	select count(1) from SEAT where state =1 and SEAT_NAME = #{name,jdbcType=VARCHAR}
+  </select> 
+  
+</mapper>

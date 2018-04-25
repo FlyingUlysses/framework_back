@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
 import com.siniswift.flightMonitor.dao.flight.FlightInfoDao;
 import com.siniswift.flightMonitor.dao.flight.SyncFlightInfoDao;
@@ -15,6 +14,12 @@ import com.siniswift.flightMonitor.pojo.SimpleAirportInfo;
 import com.siniswift.flightMonitor.pojo.SimpleFlightInfo;
 import com.siniswift.flightMonitor.pojo.SimpleNotam;
 
+/**
+ * @ClassName:  FlightInfoService   
+ * @author: wangyong 
+ * @date:   2018年4月24日
+ * @Description:航班相关服务层
+ */
 @Service
 public class FlightInfoService {
 	
@@ -103,13 +108,11 @@ public class FlightInfoService {
 				airportList.add(info.getArrivalAirport());
 				AirportNotam notam = new AirportNotam();
 				notam.setAirport(info.getArrivalAirport());
-				notam.setAirport_name(info.getArrivalAirportName());
 				result.add(notam);
 			}else if(airportList.indexOf(info.getDepartureAirport()) == -1) {
 				airportList.add(info.getDepartureAirport());
 				AirportNotam notam = new AirportNotam();
 				notam.setAirport(info.getDepartureAirport());
-				notam.setAirport_name(info.getDepartureAirportName());
 				result.add(notam);
 			}
 		}
