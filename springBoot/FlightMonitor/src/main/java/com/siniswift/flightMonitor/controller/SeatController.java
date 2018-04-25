@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.siniswift.flightMonitor.entity.flight.AirportEntity;
 import com.siniswift.flightMonitor.entity.flight.SeatEntity;
 import com.siniswift.flightMonitor.pojo.CommonResMsg;
-import com.siniswift.flightMonitor.service.SeatService;
+import com.siniswift.flightMonitor.service.web.SeatService;
 
 /**
  * @ClassName:  SeatController   

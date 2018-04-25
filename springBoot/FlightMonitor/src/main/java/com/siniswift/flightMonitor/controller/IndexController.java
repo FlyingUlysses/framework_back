@@ -21,8 +21,8 @@ import com.siniswift.flightMonitor.pojo.CommonResMsg;
 import com.siniswift.flightMonitor.pojo.SimpleAirportInfo;
 import com.siniswift.flightMonitor.pojo.SimpleFlightInfo;
 import com.siniswift.flightMonitor.pojo.SimpleNotam;
-import com.siniswift.flightMonitor.service.FlightInfoService;
-import com.siniswift.flightMonitor.service.SyncService;
+import com.siniswift.flightMonitor.service.sync.SyncFilghtService;
+import com.siniswift.flightMonitor.service.web.FlightInfoService;
 import com.siniswift.flightMonitor.utils.Constants;
 
 @Controller
@@ -32,7 +32,7 @@ public class IndexController {
 	private FlightInfoService flightInfoService;
 	
 	@Resource
-	private SyncService sync;
+	private SyncFilghtService sync;
 	
 	/**
 	 * @author: wangyong 
@@ -44,7 +44,7 @@ public class IndexController {
 		sync.getRoute();
 		SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 		modelAndView.addObject("start_time", format.format(new Date()));
-		modelAndView.addObject("end_time", format.format(new Date(new Date().getTime() + Constants.GET_FIGHT_TIME) ));
+		modelAndView.addObject("end_time", format.format(new Date(new Date().getTime() + Constants.TIME_GET_FIGHT) ));
         modelAndView.setViewName("index");
         return modelAndView;
     }

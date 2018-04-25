@@ -10,13 +10,13 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.stereotype.Controller;
 
-import com.siniswift.flightMonitor.service.SyncService;
+import com.siniswift.flightMonitor.service.sync.SyncFilghtService;
 
 @Controller
 public class SyncController implements Job{
 	
 	@Resource
-	private SyncService job;
+	private SyncFilghtService job;
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
