@@ -41,7 +41,6 @@ $(function(){
 	});
 	
 	reloadAirportList();
-	reloadAirPortTable();
 	
 	//定时30秒自动刷新数据
 	reloadFlag = setTimeout('reload()',reloadTime);
@@ -72,13 +71,13 @@ function changeType(patten,e){
 	reloadAirportList();
 }
 
-function showFlight(start,end,startName,endName,number){
+function showFlight(id,startName,endName,number){
 	layer.open({
 		  type: 2,
 		  title: "航班 "+number+" 【"+startName+" - "+endName+"】受限情况",
 		  area: ['700px', '350px'],
 		  shadeClose: true,
-		  content: '/index/showFlight?start='+start+"&end="+end+"&start_name="+startName+"&end_name="+endName
+		  content: '/index/showFlight?flightId='+id
 	});
 }
 
@@ -131,15 +130,15 @@ function reloadAirportList(){
 	$.post(url,{type:type,start_time:start_time,end_time:end_time},function(jsonArray,status){
 		var strs = "";
 		$.each(jsonArray,function(i,item){
-			if(item.flag){
-				strs +="<div class='col-lg-2 col-md-2 col-sm-12 col-xs-12' style='cursor:pointer' onclick='showFlight(\""+item.dep4code+"\","
-				+ "\""+item.arr4code+"\","+"\""+item.departureAirportName+"\","+"\""+item.arrivalAirportName+"\","+"\""+item.flightNumber+"\");'><div class='info-box red-bg'>";
+			if(item.state ==2 ){
+				strs +="<div class='col-lg-2 col-md-2 col-sm-12 col-xs-12' style='cursor:pointer' onclick='showFlight(\""+item.flightId+"\",\""+item.depCityName+"\"," 
+					 +"\""+item.arrCityName+"\",\""+item.flightNumber+"\");'><div class='info-box red-bg'>";
 			}else
 				strs +="<div class='col-lg-2 col-md-2 col-sm-12 col-xs-12' ><div class='info-box green-bg'>";
 			strs +=  "<div class='count'>航班 "+ item.flightNumber +"</div>"
-					 + "<div class='count'>"+ item.departureAirportName +" - "+ item.arrivalAirportName +"</div>"
+					 + "<div class='count'>"+ item.depCityName +" - "+ item.arrCityName +"</div>"
 					 + "<div style='padding-top:3px;padding-bottom:3px;'>"
-					 + 		"<div class='title' >预计起飞: "+item.stdStr+"</div> <div class='title'  >预计到达: "+item.staStr+"</div>"
+					 + 		"<div class='title' >预计起飞: "+new Date(item.std).format("yyyy-MM-dd hh:mm")+"</div> <div class='title'  >预计到达: "+new Date(item.sta).format("yyyy-MM-dd hh:mm")+"</div>"
 					 + "</div>";
 			strs += "</div></div><!-- end col-->";
 		});
@@ -147,36 +146,3 @@ function reloadAirportList(){
 	});
 }
 
-function reloadAirPortTable(){
-	var url = "/index/reloadAirPortTable";
-	$.get(url,function(res,status){
-		var strs = "";
-		if(res && res.length >0){
-			$.each(res,function(i,item){
-				if(item.notam_list.length >0 ){
-					strs +="<tr><td style='vertical-align:middle;' rowspan='"+item.notam_list.length+"'>"+item.airport+"</td>"
-						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.notam_list[0].start_time+"</td>"
-						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.notam_list[0].end_time+"</td>"
-						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.notam_list[0].content+"</td>"
-						 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >	" 
-						 +		"<a class='btn btn-info  btn-sm' onclick='showAirPort(\""+item.airport+"\")'><i class='fa fa-search'>受限航班</i></a></td></tr>";
-				}else{
-					strs +="<tr><td style='vertical-align:middle;' >"+item.airport+"</td>"
-						 +"<td></td><td></td><td></td><td></td></tr>";
-				}
-				if(item.notam_list.length >1){
-					$.each(item.notam_list,function(i,item){
-						if(i>0){
-							strs +="<tr><td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.start_time+"</td>"
-							 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.end_time+"</td>"
-							 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >"+item.content+"</td>"
-							 + "<td style='vertical-align:middle;background-color: #d67373;color: #fff;' >	" 
-							 +		"<a class='btn btn-info  btn-sm' onclick='showAirPort(\""+item.airport+"\")'><i class='fa fa-search'>受限航班</i></a></td></tr>";
-						}
-					});
-				}
-			})
-		}
-		$("#airportTbody").html(strs);
-	});
-}

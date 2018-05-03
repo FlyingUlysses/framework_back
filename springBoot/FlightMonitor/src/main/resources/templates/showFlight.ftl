@@ -18,7 +18,7 @@
   	<div id="notamTable_div">
   		<table id='infoTable' class='table table-hover table-advance table-hover table-bordered'>
   				<tr>
-				  	<th style='width:20%;' >机场名称</th> 
+				  	<th style='width:10%;' >四码</th> 
 					<th style='width:20%;text-align:center;'>开始时间</th> 
 					<th style='width:20%;text-align:center;'>结束时间</th> 
 					<th >限制问题</th></tr>
@@ -27,9 +27,9 @@
   				<#assign slist=Map["list"]/>     
 				   <#list slist as item>  
 				   		<tr>
-				   			<td>${item.getAirport_name()}</td>
-				   			<td>${item.getStartStr()}</td>
-				   			<td>${item.getEndStr()}</td>
+				   			<td>${item.getAirport4code()}</td>
+				   			<td>${item.getStartTime()?string('yyyy-MM-dd HH:mm')}</td>
+				   			<td>${item.getEndTime()?string('yyyy-MM-dd HH:mm')}</td>
 				   			<td>${item.getContent()}</td>
 				   		</tr>
 				   </#list>  

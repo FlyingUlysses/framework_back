@@ -1,38 +1,37 @@
 package com.siniswift.flightMonitor.controller;
 
-import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.siniswift.flightMonitor.pojo.AirportNotam;
+import com.siniswift.flightMonitor.entity.FlightEntity;
 import com.siniswift.flightMonitor.pojo.CommonResMsg;
-import com.siniswift.flightMonitor.pojo.SimpleAirportInfo;
-import com.siniswift.flightMonitor.pojo.SimpleFlightInfo;
+import com.siniswift.flightMonitor.pojo.LoginConfig;
 import com.siniswift.flightMonitor.pojo.SimpleNotam;
-import com.siniswift.flightMonitor.service.sync.SyncFilghtService;
-import com.siniswift.flightMonitor.service.web.FlightInfoService;
+import com.siniswift.flightMonitor.service.NotamService;
+import com.siniswift.flightMonitor.service.FilghtService;
 import com.siniswift.flightMonitor.utils.Constants;
 
 @Controller
 public class IndexController {
-
-	@Resource
-	private FlightInfoService flightInfoService;
 	
 	@Resource
-	private SyncFilghtService sync;
+	private FilghtService flightService;
+	
+	@Resource
+	private NotamService NotamService;
 	
 	/**
 	 * @author: wangyong 
@@ -40,24 +39,27 @@ public class IndexController {
 	 * @Description:首页跳转
 	 */
 	@RequestMapping(value = "/index")
-    public ModelAndView login(ModelAndView modelAndView) {
-		sync.getRoute();
+    public ModelAndView login(HttpSession session,ModelAndView mdv) {
 		SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-		modelAndView.addObject("start_time", format.format(new Date()));
-		modelAndView.addObject("end_time", format.format(new Date(new Date().getTime() + Constants.TIME_GET_FIGHT) ));
-        modelAndView.setViewName("index");
-        return modelAndView;
+		LoginConfig config = (LoginConfig) session.getAttribute("loginConfig");
+		mdv.addObject("start_time", format.format(new Date()));
+		mdv.addObject("end_time", format.format(new Date(new Date().getTime() + Constants.TIME_GET_FIGHT) ));
+		mdv.addObject("seat_name",config.getSeatName());
+		mdv.setViewName("/index");
+        return mdv;
     }
 	
 	/**
 	 * @author: wangyong 
+	 * @throws ParseException 
 	 * @date:   2018年4月17日
 	 * @Description:首页航班数据磁贴列表请求
 	 */
 	@RequestMapping(value="/index/ListFlightByTime",method=RequestMethod.POST)
 	@ResponseBody
-	public ArrayList<SimpleFlightInfo> ListFlightByTime(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
-		return flightInfoService.ListFlightByTime(type,startTime,endTime);
+	public ArrayList<FlightEntity> ListFlightByTime(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime,HttpSession session) throws ParseException {
+		LoginConfig config = (LoginConfig) session.getAttribute("loginConfig");
+		return flightService.ListFlightByTime(type,startTime,endTime,config.getSeatId());
 	}
 	
 	/**
@@ -67,15 +69,18 @@ public class IndexController {
 	 */
 	@RequestMapping(value="/index/syncFlight",method=RequestMethod.POST)
 	@ResponseBody
-	public CommonResMsg syncFlight(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime) {
+	public CommonResMsg syncFlight(@RequestParam("type") String type,@RequestParam("start_time")String start,@RequestParam("end_time")String end) {
 		CommonResMsg res = new CommonResMsg();
 		res.setFlag(true);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
-			sync.getFlight(startTime, endTime);
-		} catch (IOException e) {
+			Date startTime = format.parse(start);
+			Date endTime = format.parse(end);
+			flightService.getListFlightByWeb(startTime, endTime);
+			flightService.ListNotTackOffByTime(startTime, endTime);
+		} catch (Exception e) {
 			res.setFlag(false);
-			res.setMsg("同步即时数据错误！请联系管理员。");
-			e.printStackTrace();
+			res.setMsg("同步失败");
 		}
 		return res;
 	}
@@ -86,39 +91,12 @@ public class IndexController {
 	 * @Description:航班详情跳转
 	 */
 	@RequestMapping(value = "/index/showFlight")
-    public ModelAndView showFlight(ModelAndView modelAndView, String start, String end, String start_name,String end_name) {
+    public ModelAndView showFlight(ModelAndView modelAndView, String flightId) {
 		HashMap<String, ArrayList<SimpleNotam>> map = new HashMap<String,ArrayList<SimpleNotam>>();
-	    map.put("list",flightInfoService.ListNotamByFlight(start, end, start_name, end_name));  
+	    map.put("list",flightService.getRestrictionInfo(flightId));  
 	    modelAndView.addObject("Map",map);
 		modelAndView.setViewName("/showFlight");
         return modelAndView;
-    }
-	
-	/**
-	 * @author: wangyong 
-	 * @date:   2018年4月17日
-	 * @Description:首页机场表格
-	 */
-	@SuppressWarnings("deprecation")
-	@RequestMapping(value = "/index/reloadAirPortTable")
-	@ResponseBody
-    public ArrayList<AirportNotam> reloadAirPortTable() {
-        return flightInfoService.getAirPortTable();
-    }
-	
-	/**
-	 * @author: wangyong 
-	 * @date:   2018年4月17日
-	 * @Description:查询一条通告影响的所有航班
-	 */
-	@SuppressWarnings("deprecation")
-	@RequestMapping(value = "/index/showAirport/{code}")
-    public ModelAndView showAirport(ModelAndView modelAndView,@PathVariable("code")String code) {
-		HashMap<String, ArrayList<SimpleAirportInfo>> map = new HashMap<String,ArrayList<SimpleAirportInfo>>();
-	    map.put("list",flightInfoService.getFlightListByAirPort(code));  
-	    modelAndView.addObject("Map",map);  
-		modelAndView.setViewName("/showAirport");
-	    return modelAndView;
     }
 	
 	/**

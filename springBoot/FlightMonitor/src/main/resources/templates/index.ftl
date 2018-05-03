@@ -86,7 +86,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a onclick= 'changeType("trouble",this);' style="cursor:pointer;" >
+                                <a onclick= 'changeType("error",this);' style="cursor:pointer;" >
                                     <span ><i class="fa fa-cog"></i></span>  
                                                                                      只看受限
                                 </a>
@@ -100,7 +100,7 @@
                             <span class="profile-ava">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <span class="username">席位一</span>
+                            <span class="username">${seat_name}</span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">

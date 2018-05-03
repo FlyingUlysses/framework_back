@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.siniswift.flightMonitor.dao.flight.AirportSeatDao">
-  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.flight.AirportSeatEntity">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.AirportSeatEntity">
     <id column="AIRPORT_SEAT_ID" jdbcType="VARCHAR" property="airportSeatId" />
     <result column="AIRPORT_ID" jdbcType="VARCHAR" property="airportId" />
     <result column="SEAT_ID" jdbcType="VARCHAR" property="seatId" />
@@ -19,13 +19,13 @@
     delete from AIRPORT_SEAT
     where AIRPORT_SEAT_ID = #{airportSeatId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.flight.AirportSeatEntity">
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.AirportSeatEntity">
     insert into AIRPORT_SEAT (AIRPORT_SEAT_ID, AIRPORT_ID, SEAT_ID
       )
     values (#{airportSeatId,jdbcType=VARCHAR}, #{airportId,jdbcType=VARCHAR}, #{seatId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.flight.AirportSeatEntity">
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.AirportSeatEntity">
     insert into AIRPORT_SEAT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="airportSeatId != null">
@@ -50,7 +50,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.flight.AirportSeatEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.AirportSeatEntity">
     update AIRPORT_SEAT
     <set>
       <if test="airportId != null">
@@ -62,7 +62,7 @@
     </set>
     where AIRPORT_SEAT_ID = #{airportSeatId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.flight.AirportSeatEntity">
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.AirportSeatEntity">
     update AIRPORT_SEAT
     set AIRPORT_ID = #{airportId,jdbcType=VARCHAR},
       SEAT_ID = #{seatId,jdbcType=VARCHAR}

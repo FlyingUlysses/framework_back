@@ -21,16 +21,15 @@
     <!-- Custom styles -->
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/style-responsive.css" rel="stylesheet" />
-    <!-- select -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />  
-    
+	<!-- select2 -->
+	<link href="/static/lib/select2/css/select2.css" rel="stylesheet">
 </head>
 
   <body class="login-img3-body">
 
     <div class="container">
 
-      <form class="login-form" action="/index">        
+      <form id="login_form" class="login-form" action="#" method="post">        
         <div class="login-wrap">
             <p class="login-img"><i class="icon_lock_alt"></i></p>
             <div class="input-group">
@@ -42,27 +41,38 @@
                 <input type="password" class="form-control" placeholder="密码">
             </div>
             <div  >
-                <select class="singleSelect1" style="min-width:310px;min-height:50px;">  
-				    <option></option>  
-				    <option>席位一</option>  
-				    <option>席位二</option>  
-				    <option>席位三</option>  
+                <select id="seatSelect" name="seatId" style="min-width:310px;min-height:50px;"> 
+                	<option></option>
+                	<#assign slist=Map["list"]/>
+					 <#list slist as item>
+					 	<option value='${item.getSeatId()}'>${item.getSeatName()}</option>;
+				  	 </#list>   
 				</select> 
+				<input type="hidden" id="seatName" name="seatName" >
 			</div>	
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> 记住我
                 <span class="pull-right"> <a href="#"> 忘记密码?</a></span>
             </label>
-            <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
+            <button id="login_button" class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
         </div>
       </form>
-
-    </div>
-    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>  
+	
+    <!-- javascripts -->
+    <script src="/static/lib/jquery.js"></script>
+	<script src="/static/lib/jquery-ui-1.10.4.min.js"></script>
+    <script src="/static/lib/jquery-1.8.3.min.js"></script>
+	<!-- select2 -->
+	<script src="/static/lib/select2/js/select2.js" type="text/javascript"></script> 
+	<!-- layer弹出层 -->
+    <script src="/static/lib/layer/layer.js"></script>
 	<script>
-		$(document).ready(function() {  
-		    $('.singleSelect1').select2({placeholder:'请选择席位...',templateResult:function(state){return state.text}});  
+		$(function(){
+			var seatSelect = $('#seatSelect').select2({placeholder:'请选择席位...'});
+			seatSelect.on("change",function(e){
+				$("#seatName").val($("#seatSelect option:selected").text());
+				$("#login_form").attr("action","/login");
+			});
 		});
 	</script>
   </body>

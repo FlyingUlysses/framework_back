@@ -1,84 +1,104 @@
 package com.siniswift.flightMonitor.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SimpleNotam {
-	
-	private Long importantId;
-	
-	private Long itemId; 
-	
-	private String airport;
-	
-	private Date start;
-	
-	private Date end;
-	
-	private String startStr;
-	
-	private String endStr;
-	
-	private String airport_name;
-	
-	private String content;
-	
-	
-	
-	public String getStartStr() {
-		return startStr;
+/**
+ * @ClassName:  SimpleNotam   
+ * @author: wangyong 
+ * @date:   2018年5月2日
+ * @Description:用于解析notam的通告数据
+ */
+public class SimpleNotam implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private String restrictionId;
+    
+    private String importancId;
+    
+    private String itemId;
+
+    private String type;
+
+    private Short state;
+
+    private Date startTime;
+
+    private Date endTime;
+
+    private String airport4code;
+
+    private String content;
+    
+	public String getImportancId() {
+		return importancId;
 	}
-	public void setStartStr(String startStr) {
-		this.startStr = startStr;
+
+	public void setImportancId(String importancId) {
+		this.importancId = importancId;
 	}
-	public String getEndStr() {
-		return endStr;
-	}
-	public void setEndStr(String endStr) {
-		this.endStr = endStr;
-	}
-	public String getAirport_name() {
-		return airport_name;
-	}
-	public void setAirport_name(String airport_name) {
-		this.airport_name = airport_name;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public Long getImportantId() {
-		return importantId;
-	}
-	public void setImportantId(Long importantId) {
-		this.importantId = importantId;
-	}
-	public Long getItemId() {
+
+	public String getItemId() {
 		return itemId;
 	}
-	public void setItemId(Long itemId) {
+
+	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
-	public String getAirport() {
-		return airport;
-	}
-	public void setAirport(String airport) {
-		this.airport = airport;
-	}
-	public Date getStart() {
-		return start;
-	}
-	public void setStart(Date start) {
-		this.start = start;
-	}
-	public Date getEnd() {
-		return end;
-	}
-	public void setEnd(Date end) {
-		this.end = end;
-	}
-	
-	
-	
+
+	public String getRestrictionId() {
+        return restrictionId;
+    }
+
+    public void setRestrictionId(String restrictionId) {
+        this.restrictionId = restrictionId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Short getState() {
+        return state;
+    }
+
+    public void setState(Short state) {
+        this.state = state;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getAirport4code() {
+        return airport4code;
+    }
+
+    public void setAirport4code(String airport4code) {
+        this.airport4code = airport4code;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

@@ -2,7 +2,7 @@ package com.siniswift.flightMonitor.dao.flight;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.siniswift.flightMonitor.entity.flight.AirportSeatEntity;
+import com.siniswift.flightMonitor.entity.AirportSeatEntity;
 
 public interface AirportSeatDao {
     int deleteByPrimaryKey(String airportSeatId);

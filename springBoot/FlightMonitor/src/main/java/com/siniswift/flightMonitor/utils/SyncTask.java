@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.siniswift.flightMonitor.service.sync.SyncFilghtService;
+import com.siniswift.flightMonitor.service.FilghtService;
 
 /**
  * @ClassName:  SyncTask   
@@ -20,7 +20,7 @@ import com.siniswift.flightMonitor.service.sync.SyncFilghtService;
 public class SyncTask {
 	
 	@Resource
-	private SyncFilghtService flight;
+	private FilghtService flight;
 	
 	 @Scheduled(fixedDelay = Constants.TIME_GET_FIGHT)
 	 public void dateTask() {

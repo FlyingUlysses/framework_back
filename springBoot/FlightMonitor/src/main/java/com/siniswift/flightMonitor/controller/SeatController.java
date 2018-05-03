@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.siniswift.flightMonitor.entity.flight.AirportEntity;
-import com.siniswift.flightMonitor.entity.flight.SeatEntity;
+import com.siniswift.flightMonitor.entity.AirportEntity;
+import com.siniswift.flightMonitor.entity.SeatEntity;
 import com.siniswift.flightMonitor.pojo.CommonResMsg;
-import com.siniswift.flightMonitor.service.web.SeatService;
+import com.siniswift.flightMonitor.service.SeatService;
 
 /**
  * @ClassName:  SeatController   

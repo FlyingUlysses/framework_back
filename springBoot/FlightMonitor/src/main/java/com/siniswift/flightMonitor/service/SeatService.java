@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.siniswift.flightMonitor.dao.flight.AirportDao;
 import com.siniswift.flightMonitor.dao.flight.AirportSeatDao;
 import com.siniswift.flightMonitor.dao.flight.SeatDao;
-import com.siniswift.flightMonitor.entity.flight.AirportEntity;
-import com.siniswift.flightMonitor.entity.flight.SeatEntity;
+import com.siniswift.flightMonitor.entity.AirportEntity;
+import com.siniswift.flightMonitor.entity.SeatEntity;
 import com.siniswift.flightMonitor.pojo.CommonResMsg;
 
 /**

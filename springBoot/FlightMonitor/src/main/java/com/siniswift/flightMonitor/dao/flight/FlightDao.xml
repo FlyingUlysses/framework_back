@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.flight.FlightDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.FlightEntity">
+    <id column="FLIGHT_ID" jdbcType="VARCHAR" property="flightId" />
+    <result column="FLIGHT_NUMBER" jdbcType="VARCHAR" property="flightNumber" />
+    <result column="STD"  property="std" />
+    <result column="STA"  property="sta" />
+    <result column="DEP4CODE" jdbcType="VARCHAR" property="dep4code" />
+    <result column="ARR4CODE" jdbcType="VARCHAR" property="arr4code" />
+    <result column="DEP_CITY_NAME" jdbcType="VARCHAR" property="depCityName" />
+    <result column="ARR_CITY_NAME" jdbcType="VARCHAR" property="arrCityName" />
+    <result column="STATE" jdbcType="DECIMAL" property="state" />
+    <result column="UPDATE_TIME"  property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.siniswift.flightMonitor.entity.FlightEntity">
+    <result column="RESTRICTION_RESULT" jdbcType="CLOB" property="restrictionResult" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FLIGHT_ID, FLIGHT_NUMBER, STD, STA, DEP4CODE, ARR4CODE, DEP_CITY_NAME, ARR_CITY_NAME, 
+    STATE, UPDATE_TIME
+  </sql>
+  <sql id="Blob_Column_List">
+    RESTRICTION_RESULT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from FLIGHT
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from FLIGHT
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    insert into FLIGHT (FLIGHT_ID, FLIGHT_NUMBER, STD, 
+      STA, DEP4CODE, ARR4CODE, 
+      DEP_CITY_NAME, ARR_CITY_NAME, STATE, 
+      UPDATE_TIME, RESTRICTION_RESULT)
+    values (#{flightId,jdbcType=VARCHAR}, #{flightNumber,jdbcType=VARCHAR}, #{std}, 
+      #{sta}, #{dep4code,jdbcType=VARCHAR}, #{arr4code,jdbcType=VARCHAR}, 
+      #{depCityName,jdbcType=VARCHAR}, #{arrCityName,jdbcType=VARCHAR}, #{state,jdbcType=DECIMAL}, 
+      #{updateTime}, #{restrictionResult,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    insert into FLIGHT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flightId != null">
+        FLIGHT_ID,
+      </if>
+      <if test="flightNumber != null">
+        FLIGHT_NUMBER,
+      </if>
+      <if test="std != null">
+        STD,
+      </if>
+      <if test="sta != null">
+        STA,
+      </if>
+      <if test="dep4code != null">
+        DEP4CODE,
+      </if>
+      <if test="arr4code != null">
+        ARR4CODE,
+      </if>
+      <if test="depCityName != null">
+        DEP_CITY_NAME,
+      </if>
+      <if test="arrCityName != null">
+        ARR_CITY_NAME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="restrictionResult != null">
+        RESTRICTION_RESULT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flightId != null">
+        #{flightId,jdbcType=VARCHAR},
+      </if>
+      <if test="flightNumber != null">
+        #{flightNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="std != null">
+        #{std},
+      </if>
+      <if test="sta != null">
+        #{sta},
+      </if>
+      <if test="dep4code != null">
+        #{dep4code,jdbcType=VARCHAR},
+      </if>
+      <if test="arr4code != null">
+        #{arr4code,jdbcType=VARCHAR},
+      </if>
+      <if test="depCityName != null">
+        #{depCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="arrCityName != null">
+        #{arrCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="restrictionResult != null">
+        #{restrictionResult,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    update FLIGHT
+    <set>
+      <if test="flightNumber != null">
+        FLIGHT_NUMBER = #{flightNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="std != null">
+        STD = #{std},
+      </if>
+      <if test="sta != null">
+        STA = #{sta},
+      </if>
+      <if test="dep4code != null">
+        DEP4CODE = #{dep4code,jdbcType=VARCHAR},
+      </if>
+      <if test="arr4code != null">
+        ARR4CODE = #{arr4code,jdbcType=VARCHAR},
+      </if>
+      <if test="depCityName != null">
+        DEP_CITY_NAME = #{depCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="arrCityName != null">
+        ARR_CITY_NAME = #{arrCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime},
+      </if>
+      <if test="restrictionResult != null">
+        RESTRICTION_RESULT = #{restrictionResult,jdbcType=CLOB},
+      </if>
+    </set>
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    update FLIGHT
+    set FLIGHT_NUMBER = #{flightNumber,jdbcType=VARCHAR},
+      STD = #{std},
+      STA = #{sta},
+      DEP4CODE = #{dep4code,jdbcType=VARCHAR},
+      ARR4CODE = #{arr4code,jdbcType=VARCHAR},
+      DEP_CITY_NAME = #{depCityName,jdbcType=VARCHAR},
+      ARR_CITY_NAME = #{arrCityName,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime},
+      RESTRICTION_RESULT = #{restrictionResult,jdbcType=CLOB}
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    update FLIGHT
+    set FLIGHT_NUMBER = #{flightNumber,jdbcType=VARCHAR},
+      STD = #{std},
+      STA = #{sta},
+      DEP4CODE = #{dep4code,jdbcType=VARCHAR},
+      ARR4CODE = #{arr4code,jdbcType=VARCHAR},
+      DEP_CITY_NAME = #{depCityName,jdbcType=VARCHAR},
+      ARR_CITY_NAME = #{arrCityName,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime}
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </update>
+  
+	  <select id="listNotTackOffByTime" resultMap="BaseResultMap">
+	  	select 
+	  		<include refid="Base_Column_List" />
+	  	from	FLIGHT t
+	  	where t.state != 0 and t.std <![CDATA[ >= ]]> #{startTime} and t.std <![CDATA[ <= ]]> #{endTime}
+	  	order by t.state desc ,t.std asc
+	  </select>
+  
+    <select id="listByTimeAndSeat" resultMap="BaseResultMap">
+	  	select 
+	  		<include refid="Base_Column_List" />
+	  	from	FLIGHT t
+	  	where t.state !=0 and t.std <![CDATA[ >= ]]> #{startTime} and t.sta <![CDATA[ <= ]]> #{endTime}
+	  		and ( t.DEP4CODE in 
+	  		  <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		      </foreach>
+	  		 or t.ARR4CODE in 
+	  		   <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		       </foreach>
+	  		)
+	  	order by t.state desc ,t.std asc
+    </select>
+    
+    <select id="listErrorByTimeAndSeat" resultMap="BaseResultMap">
+	  	select 
+	  		<include refid="Base_Column_List" />
+	  	from	FLIGHT t
+	  	where t.state =2 and t.std <![CDATA[ >= ]]> #{startTime} and t.sta <![CDATA[ <= ]]> #{endTime}
+		  	and ( t.DEP4CODE in 
+	  		  <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		      </foreach>
+	  		 or t.ARR4CODE in 
+	  		   <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		       </foreach>
+	  		)
+	  	order by t.state desc ,t.std asc
+    </select>
+  
+</mapper>

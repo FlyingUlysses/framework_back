@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.siniswift.flightMonitor.entity.flight.AirportEntity;
+import com.siniswift.flightMonitor.entity.AirportEntity;
 
 public interface AirportDao {
     int deleteByPrimaryKey(String airportId);
@@ -22,4 +22,7 @@ public interface AirportDao {
 	ArrayList<AirportEntity> listAllAirport();
 
 	ArrayList<AirportEntity> showSeat(@Param("seatId")String seatId);
+	
+	String strListairport(@Param("seatId")String seatId);
+	
 }

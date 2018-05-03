@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.siniswift.flightMonitor.entity.flight.SeatEntity;
+import com.siniswift.flightMonitor.entity.SeatEntity;
 
 public interface SeatDao {
     int deleteByPrimaryKey(String seatId);
@@ -22,4 +22,5 @@ public interface SeatDao {
 	ArrayList<SeatEntity> listAllSeat();
 
 	int haveSeatByName(@Param("name") String name);
+	
 }
