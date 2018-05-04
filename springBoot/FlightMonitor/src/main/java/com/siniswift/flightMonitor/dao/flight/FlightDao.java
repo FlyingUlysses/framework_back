@@ -24,8 +24,11 @@ public interface FlightDao {
     
     ArrayList<FlightEntity> listNotTackOffByTime(@Param("startTime") Date startTime,@Param("endTime") Date endTime);
     
+    ArrayList<FlightEntity> listTackOffByTime(@Param("startTime") Date startTime,@Param("endTime") Date endTime);
+    
     ArrayList<FlightEntity> listByTimeAndSeat(@Param("startTime") Date startTime,@Param("endTime") Date endTime,@Param("array") String[] array);
     
     ArrayList<FlightEntity> listErrorByTimeAndSeat(@Param("startTime") Date startTime,@Param("endTime") Date endTime,@Param("array") String[] array);
+
     
 }

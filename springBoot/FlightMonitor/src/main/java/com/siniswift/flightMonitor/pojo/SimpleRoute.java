@@ -16,6 +16,16 @@ public class SimpleRoute {
 	private String endAirport;
 	
 	private String cfp;
+	
+	private Boolean state;
+
+	public Boolean getState() {
+		return state;
+	}
+
+	public void setState(Boolean state) {
+		this.state = state;
+	}
 
 	public String getId() {
 		return id;

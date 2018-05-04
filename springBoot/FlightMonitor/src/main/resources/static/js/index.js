@@ -1,6 +1,6 @@
 var type = "all";
 var reloadFlag = null;
-var reloadTime = 5000;
+var reloadTime = 3000;
 $(function(){
 	
 	laydate.render({
@@ -42,7 +42,7 @@ $(function(){
 	
 	reloadAirportList();
 	
-	//定时30秒自动刷新数据
+	//定时3秒自动刷新数据
 	reloadFlag = setTimeout('reload()',reloadTime);
 });
 
@@ -52,9 +52,9 @@ function reload(){
 	$("#start_reload_li").hide();
 	$("#stop_reload_li").show();
 	$("#start_time_input").val( new Date().format("yyyy-MM-dd hh:mm") );
-	$("#end_time_input").val( new Date(new Date().getTime() + 6*3600*1000).format("yyyy-MM-dd hh:mm") );
+	$("#end_time_input").val( new Date(new Date().getTime() + (3*3600*1000) ).format("yyyy-MM-dd hh:mm") );
 	reloadAirportList();
-	//reloadFlag = setTimeout('reload()',reloadTime);
+	reloadFlag = setTimeout('reload()',reloadTime);
 }
 
 function stopReload(){
@@ -144,5 +144,18 @@ function reloadAirportList(){
 		});
 		$("#row_div").html(strs);
 	});
+}
+
+function logout(){
+	url="/logout";
+	window.location.href = url;
+}
+
+function exportExcel(){
+	alert(22);
+	var start_time = $("#start_time_input").val();
+	var end_time = $("#end_time_input").val();
+	var url = "/excel?type="+type+"&start_time="+start_time+"&end_time="+end_time;
+	window.location.href = url;
 }
 

@@ -11,6 +11,16 @@ import java.util.ArrayList;
 public class RestrictionInfo {
 	
 	private ArrayList<SimpleNotam> notamList;
+	
+	private ArrayList<SimpleRoute> routeList;
+
+	public ArrayList<SimpleRoute> getRouteList() {
+		return routeList;
+	}
+
+	public void setRouteList(ArrayList<SimpleRoute> routeList) {
+		this.routeList = routeList;
+	}
 
 	public ArrayList<SimpleNotam> getNotamList() {
 		return notamList;

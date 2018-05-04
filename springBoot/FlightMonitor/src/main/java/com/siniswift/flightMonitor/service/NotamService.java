@@ -38,7 +38,7 @@ public class NotamService {
 		try {
 			list = notamDao.ListNotamByTime(startTime,endTime);
 		} catch (Exception e) {
-			System.out.println("---------------同步notam数据出错-----------------------------");
+			System.out.println("---------------获取notam数据出错-----------------------------");
 			e.printStackTrace();
 		}
 		return list;

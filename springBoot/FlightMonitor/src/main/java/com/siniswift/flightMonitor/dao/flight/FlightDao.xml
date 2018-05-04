@@ -187,6 +187,7 @@
 	  		<include refid="Base_Column_List" />
 	  	from	FLIGHT t
 	  	where t.state != 0 and t.std <![CDATA[ >= ]]> #{startTime} and t.std <![CDATA[ <= ]]> #{endTime}
+	  	and t.sta <![CDATA[ <= ]]> #{endTime}
 	  	order by t.state desc ,t.std asc
 	  </select>
   
@@ -194,7 +195,7 @@
 	  	select 
 	  		<include refid="Base_Column_List" />
 	  	from	FLIGHT t
-	  	where t.state !=0 and t.std <![CDATA[ >= ]]> #{startTime} and t.sta <![CDATA[ <= ]]> #{endTime}
+	  	where t.state !=0 and t.std <![CDATA[ <= ]]> #{endTime} and t.sta <![CDATA[ >= ]]> #{startTime}
 	  		and ( t.DEP4CODE in 
 	  		  <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
 		            #{item}
@@ -211,7 +212,7 @@
 	  	select 
 	  		<include refid="Base_Column_List" />
 	  	from	FLIGHT t
-	  	where t.state =2 and t.std <![CDATA[ >= ]]> #{startTime} and t.sta <![CDATA[ <= ]]> #{endTime}
+	  	where t.state ==2 and t.std <![CDATA[ <= ]]> #{endTime} and t.sta <![CDATA[ >= ]]> #{startTime}
 		  	and ( t.DEP4CODE in 
 	  		  <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
 		            #{item}
@@ -223,5 +224,14 @@
 	  		)
 	  	order by t.state desc ,t.std asc
     </select>
+    
+	  <select id="listTackOffByTime" resultMap="BaseResultMap">
+	  	select 
+	  		<include refid="Base_Column_List" />
+	  	from	FLIGHT t
+	  	where t.state != 0 and t.std <![CDATA[ <= ]]> #{startTime} and t.sta <![CDATA[ >= ]]> #{startTime}
+	  	order by t.state desc ,t.std asc
+	  </select>
+  
   
 </mapper>

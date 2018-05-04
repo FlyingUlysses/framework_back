@@ -1,6 +1,5 @@
 package com.siniswift.flightMonitor;
 
-import org.quartz.SchedulerException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -20,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class FlightMonitorApplication {
 	
-	public static void main(String[] args) throws SchedulerException {
+	public static void main(String[] args) {
 		SpringApplication.run(FlightMonitorApplication.class, args);
 	}
 	

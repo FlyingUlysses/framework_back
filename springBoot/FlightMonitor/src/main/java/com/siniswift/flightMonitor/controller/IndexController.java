@@ -19,16 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.siniswift.flightMonitor.entity.FlightEntity;
 import com.siniswift.flightMonitor.pojo.CommonResMsg;
 import com.siniswift.flightMonitor.pojo.LoginConfig;
-import com.siniswift.flightMonitor.pojo.SimpleNotam;
 import com.siniswift.flightMonitor.service.NotamService;
-import com.siniswift.flightMonitor.service.FilghtService;
+import com.siniswift.flightMonitor.service.FlightService;
 import com.siniswift.flightMonitor.utils.Constants;
 
 @Controller
 public class IndexController {
 	
 	@Resource
-	private FilghtService flightService;
+	private FlightService flightService;
 	
 	@Resource
 	private NotamService NotamService;
@@ -41,9 +40,9 @@ public class IndexController {
 	@RequestMapping(value = "/index")
     public ModelAndView login(HttpSession session,ModelAndView mdv) {
 		SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-		LoginConfig config = (LoginConfig) session.getAttribute("loginConfig");
+		LoginConfig config = (LoginConfig) session.getAttribute(Constants.LOGIN_CONFIG);
 		mdv.addObject("start_time", format.format(new Date()));
-		mdv.addObject("end_time", format.format(new Date(new Date().getTime() + Constants.TIME_GET_FIGHT) ));
+		mdv.addObject("end_time", format.format(new Date( new Date().getTime() + (3*3600*1000) ) ));
 		mdv.addObject("seat_name",config.getSeatName());
 		mdv.setViewName("/index");
         return mdv;
@@ -58,7 +57,7 @@ public class IndexController {
 	@RequestMapping(value="/index/ListFlightByTime",method=RequestMethod.POST)
 	@ResponseBody
 	public ArrayList<FlightEntity> ListFlightByTime(@RequestParam("type") String type,@RequestParam("start_time")String startTime,@RequestParam("end_time")String endTime,HttpSession session) throws ParseException {
-		LoginConfig config = (LoginConfig) session.getAttribute("loginConfig");
+		LoginConfig config = (LoginConfig) session.getAttribute(Constants.LOGIN_CONFIG);
 		return flightService.ListFlightByTime(type,startTime,endTime,config.getSeatId());
 	}
 	
@@ -92,8 +91,8 @@ public class IndexController {
 	 */
 	@RequestMapping(value = "/index/showFlight")
     public ModelAndView showFlight(ModelAndView modelAndView, String flightId) {
-		HashMap<String, ArrayList<SimpleNotam>> map = new HashMap<String,ArrayList<SimpleNotam>>();
-	    map.put("list",flightService.getRestrictionInfo(flightId));  
+		HashMap<String, Object> map = new HashMap<String,Object>();
+	    map.put("rest",flightService.getRestrictionInfo(flightId));  
 	    modelAndView.addObject("Map",map);
 		modelAndView.setViewName("/showFlight");
         return modelAndView;

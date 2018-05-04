@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="img/favicon.png">
     <title>航班监控主页</title>
     <!-- Bootstrap CSS -->    
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -62,6 +61,9 @@
                 	<li>
                 		<inpt type="button" id="reload_button" class="btn btn-danger  btn-sm" style="margin-top: 12px;" onclick=""><i class="fa fa-spinner"> 导入</i></a>
                 	</li>
+                	<li>
+                		<inpt type="button" id="export_button" class="btn btn-danger  btn-sm" style="margin-top: 12px;" onclick="exportExcel();"><i class="fa fa-spinner"> 导出</i></a>
+                	</li>
                 	<li id="stop_reload_li">
                 		<inpt type="button" id="stop_button" class="btn btn-danger  btn-sm" style="margin-top: 12px;" onclick="stopReload();"><i class="fa fa-power-off"> 停止刷新</i></a>
                 	</li>
@@ -108,7 +110,7 @@
                                 <a onclick='showSeatConfig();' style='cursor: pointer;'><i class="icon_profile"></i>席位配置</a>
                             </li>
                             <li>
-                                <a href="login.html"><i class="icon_key_alt"></i>退出登录</a>
+                                <a style='cursor: pointer;' onclick="logout();"><i class="icon_key_alt"></i>退出登录</a>
                             </li>
                         </ul>
                     </li>

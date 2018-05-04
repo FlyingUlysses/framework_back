@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.siniswift.flightMonitor.dao.flight.SeatDao;
 import com.siniswift.flightMonitor.entity.SeatEntity;
 import com.siniswift.flightMonitor.pojo.LoginConfig;
+import com.siniswift.flightMonitor.utils.Constants;
 
 @Controller
 public class LoginController {
@@ -31,11 +32,22 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView mdv,HttpSession session,String seatId,String seatName) {
-		LoginConfig config = new LoginConfig();
-		config.setSeatId(seatId);
-		config.setSeatName(seatName);
-		session.setAttribute("loginConfig", config);
-		mdv.setViewName("redirect:/index");
+		if(seatId ==null || seatName ==null) {
+			mdv.setViewName("redirect:/");
+		}else {
+			LoginConfig config = new LoginConfig();
+			config.setSeatId(seatId);
+			config.setSeatName(seatName);
+			session.setAttribute(Constants.LOGIN_CONFIG, config);
+			mdv.setViewName("redirect:/index");
+		}
+		return mdv;
+	}
+	
+	@RequestMapping(value = "/logout")
+	public ModelAndView logout(ModelAndView mdv,HttpSession session) {
+		session.removeAttribute(Constants.LOGIN_CONFIG);
+		mdv.setViewName("redirect:/");
 		return mdv;
 	}
 	
