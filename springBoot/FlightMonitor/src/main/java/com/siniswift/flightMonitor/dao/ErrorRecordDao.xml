@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.ErrorRecordDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.ErrorRecordEntity">
+    <id column="ERROR_ID" jdbcType="VARCHAR" property="errorId" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ERROR_ID, REMARK, CREATE_TIME, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ERROR_RECORD
+    where ERROR_ID = #{errorId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ERROR_RECORD
+    where ERROR_ID = #{errorId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.ErrorRecordEntity">
+    insert into ERROR_RECORD (ERROR_ID, REMARK, CONTENT, 
+      CREATE_TIME, TYPE)
+    values (#{errorId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.ErrorRecordEntity">
+    insert into ERROR_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="errorId != null">
+        ERROR_ID,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="errorId != null">
+        #{errorId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.ErrorRecordEntity">
+    update ERROR_RECORD
+    <set>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ERROR_ID = #{errorId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.ErrorRecordEntity">
+    update ERROR_RECORD
+    set REMARK = #{remark,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ERROR_ID = #{errorId,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="listByTimeAndType" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ERROR_RECORD
+    where CREATE_TIME <![CDATA[ >= ]]> #{startTime} and CREATE_TIME <![CDATA[ <= ]]> #{endTime}
+    <if test="type != null">
+    	and TYPE = #{type}
+    </if>
+    order by CREATE_TIME desc
+  </select>
+  
+   <select id="selectContentByid" resultMap="BaseResultMap" >
+    select  CONTENT,
+   		<include refid="Base_Column_List" />
+    from ERROR_RECORD
+    where ERROR_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

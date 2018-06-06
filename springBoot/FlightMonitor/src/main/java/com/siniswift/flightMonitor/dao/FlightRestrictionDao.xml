@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.FlightRestrictionDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.FlightRestrictionEntity">
+    <id column="RESTRICTION_ID" jdbcType="VARCHAR" property="restrictionId" />
+    <result column="FLIGHT_ID" jdbcType="VARCHAR" property="flightId" />
+    <result column="DICT_CODE" jdbcType="VARCHAR" property="dictCode" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.siniswift.flightMonitor.entity.FlightRestrictionEntity">
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RESTRICTION_ID, FLIGHT_ID, DICT_CODE
+  </sql>
+  <sql id="Blob_Column_List">
+    CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from FLIGHT_RESTRICTION
+    where RESTRICTION_ID = #{restrictionId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from FLIGHT_RESTRICTION
+    where RESTRICTION_ID = #{restrictionId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.FlightRestrictionEntity">
+    insert into FLIGHT_RESTRICTION (RESTRICTION_ID, FLIGHT_ID, DICT_CODE, 
+      CONTENT)
+    values (#{restrictionId,jdbcType=VARCHAR}, #{flightId,jdbcType=VARCHAR}, #{dictCode,jdbcType=VARCHAR}, 
+      #{state,jdbcType=DECIMAL}, #{content,jdbcType=CLOB})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.FlightRestrictionEntity">
+    insert into FLIGHT_RESTRICTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="restrictionId != null">
+        RESTRICTION_ID,
+      </if>
+      <if test="flightId != null">
+        FLIGHT_ID,
+      </if>
+      <if test="dictCode != null">
+        DICT_CODE,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="restrictionId != null">
+        #{restrictionId,jdbcType=VARCHAR},
+      </if>
+      <if test="flightId != null">
+        #{flightId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictCode != null">
+        #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.FlightRestrictionEntity">
+    update FLIGHT_RESTRICTION
+    <set>
+      <if test="flightId != null">
+        FLIGHT_ID = #{flightId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictCode != null">
+        DICT_CODE = #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=CLOB},
+      </if>
+    </set>
+    where RESTRICTION_ID = #{restrictionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.siniswift.flightMonitor.entity.FlightRestrictionEntity">
+    update FLIGHT_RESTRICTION
+    set FLIGHT_ID = #{flightId,jdbcType=VARCHAR},
+      DICT_CODE = #{dictCode,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=CLOB}
+    where RESTRICTION_ID = #{restrictionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.FlightRestrictionEntity">
+    update FLIGHT_RESTRICTION
+    set FLIGHT_ID = #{flightId,jdbcType=VARCHAR},
+      DICT_CODE = #{dictCode,jdbcType=VARCHAR}
+    where RESTRICTION_ID = #{restrictionId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getByFlightIdandType"  resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from FLIGHT_RESTRICTION
+    where flight_id = #{flightId,jdbcType=VARCHAR}
+    and dict_code = #{type,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getFlightRestriction"  resultMap="ResultMapWithBLOBs">
+	    select
+	    <include refid="Base_Column_List" />
+	    ,
+	    <include refid="Blob_Column_List" />
+	    from FLIGHT_RESTRICTION f
+	    where f.flight_id = #{flightId,jdbcType=VARCHAR}
+  </select>
+
+   <select id="ListByFlightArrray"  resultMap="ResultMapWithBLOBs">
+	    select
+	    <include refid="Base_Column_List" />
+	    ,
+	    <include refid="Blob_Column_List" />
+	    from FLIGHT_RESTRICTION f
+	    where 1=1
+	    <if test="flightIdList!= null">
+		   and  f.flight_id in
+		  <foreach collection="flightIdList" index="index" item="item" open="(" separator="," close=")">
+	            #{item.flightId}
+	      </foreach>
+	    </if>
+	    <if test="dictCodeList != null">
+	      and f.DICT_CODE in
+		  <foreach collection="dictCodeList" index="index" item="code" open="(" separator="," close=")">
+	            #{code}
+	      </foreach>
+	    </if>
+  </select>  
+  
+</mapper>

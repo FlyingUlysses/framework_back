@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.DictDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.DictEntity">
+    <id column="DICT_ID" jdbcType="DECIMAL" property="dictId" />
+    <result column="GROUP_CODE" jdbcType="VARCHAR" property="groupCode" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="STATE" jdbcType="DECIMAL" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DICT_ID, GROUP_CODE, TYPE, SORT, CODE, NAME, STATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DICT
+    where DICT_ID = #{dictId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from DICT
+    where DICT_ID = #{dictId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.DictEntity">
+    insert into DICT (DICT_ID, GROUP_CODE, TYPE, 
+      SORT, CODE, NAME, STATE
+      )
+    values (#{dictId,jdbcType=DECIMAL}, #{groupCode,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{state,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.DictEntity">
+    insert into DICT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictId != null">
+        DICT_ID,
+      </if>
+      <if test="groupCode != null">
+        GROUP_CODE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="sort != null">
+        SORT,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictId != null">
+        #{dictId,jdbcType=DECIMAL},
+      </if>
+      <if test="groupCode != null">
+        #{groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.DictEntity">
+    update DICT
+    <set>
+      <if test="groupCode != null">
+        GROUP_CODE = #{groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        SORT = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where DICT_ID = #{dictId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.DictEntity">
+    update DICT
+    set GROUP_CODE = #{groupCode,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=DECIMAL},
+      CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=DECIMAL}
+    where DICT_ID = #{dictId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="ListbyGroupCode" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DICT d
+    where d.state =1 and d.type = 'I' and d.group_code= #{groupCode,jdbcType=VARCHAR}
+    order by d.sort
+  </select>
+  
+  <select id="ListbySeatIdAndGroupCode" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DICT d
+    where d.state =1 and d.type = 'I' and d.group_code= #{groupCode,jdbcType=VARCHAR}
+    order by d.sort
+  </select>
+  
+</mapper>

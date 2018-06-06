@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.ExportRecordDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.ExportRecordEntity">
+    <id column="FLIGHT_ID" jdbcType="VARCHAR" property="flightId" />
+    <result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
+    <result column="SEAT_ID" jdbcType="VARCHAR" property="seatId" />
+    <result column="IS_LIMITED" jdbcType="DECIMAL" property="isLimited" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FLIGHT_ID, RECORD_ID, SEAT_ID, IS_LIMITED
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from EXPORT_RECORD
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from EXPORT_RECORD
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.ExportRecordEntity">
+    insert into EXPORT_RECORD (FLIGHT_ID, RECORD_ID, SEAT_ID, 
+      IS_LIMITED)
+    values (#{flightId,jdbcType=VARCHAR}, #{recordId,jdbcType=VARCHAR}, #{seatId,jdbcType=VARCHAR}, 
+      #{isLimited,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.ExportRecordEntity">
+    insert into EXPORT_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flightId != null">
+        FLIGHT_ID,
+      </if>
+      <if test="recordId != null">
+        RECORD_ID,
+      </if>
+      <if test="seatId != null">
+        SEAT_ID,
+      </if>
+      <if test="isLimited != null">
+        IS_LIMITED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flightId != null">
+        #{flightId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="seatId != null">
+        #{seatId,jdbcType=VARCHAR},
+      </if>
+      <if test="isLimited != null">
+        #{isLimited,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.ExportRecordEntity">
+    update EXPORT_RECORD
+    <set>
+      <if test="recordId != null">
+        RECORD_ID = #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="seatId != null">
+        SEAT_ID = #{seatId,jdbcType=VARCHAR},
+      </if>
+      <if test="isLimited != null">
+        IS_LIMITED = #{isLimited,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.ExportRecordEntity">
+    update EXPORT_RECORD
+    set RECORD_ID = #{recordId,jdbcType=VARCHAR},
+      SEAT_ID = #{seatId,jdbcType=VARCHAR},
+      IS_LIMITED = #{isLimited,jdbcType=DECIMAL}
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="listBySeatId"  resultMap="BaseResultMap">
+	    select 
+	    	t.FLIGHT_ID, t.RECORD_ID, t.SEAT_ID, t.IS_LIMITED
+	    from EXPORT_RECORD t
+	    	join flight f on f.flight_id = t.flight_id
+	    where t.seat_id = #{seatId,jdbcType=VARCHAR}
+	   		and f.std <![CDATA[ <= ]]> #{endTime} and f.sta <![CDATA[ >= ]]> #{startTime}
+  </select>
+  
+  <delete id="deleteBySeatId" parameterType="java.lang.String">
+    delete from EXPORT_RECORD
+    where SEAT_ID = #{seatId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="isnertList" parameterType="com.siniswift.flightMonitor.entity.ExportRecordEntity">
+    insert into EXPORT_RECORD (FLIGHT_ID, RECORD_ID, SEAT_ID, 
+      IS_LIMITED)
+    <foreach  collection="list" item="item" index="index" separator=" union all ">  
+	     	select  #{item.flightId},#{item.recordId},#{item.seatId},#{item.isLimited}  FROM DUAL  
+   	</foreach> 
+  </insert>
+  
+    
+  <update id="updateList" >
+    <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+	    update EXPORT_RECORD
+	        <set>
+		      <if test="item.recordId != null">
+		        RECORD_ID = #{item.recordId},
+		      </if>
+		      <if test="item.seatId != null">
+		        SEAT_ID = #{item.seatId},
+		      </if>
+		      <if test="item.isLimited != null">
+		        IS_LIMITED = #{item.isLimited},
+		      </if>
+		    </set>
+		    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  
+</mapper>

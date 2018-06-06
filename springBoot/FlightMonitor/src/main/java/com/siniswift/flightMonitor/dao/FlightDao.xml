@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.FlightDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.FlightEntity">
+    <id column="FLIGHT_ID" jdbcType="VARCHAR" property="flightId" />
+    <result column="FLIGHT_NUMBER" jdbcType="VARCHAR" property="flightNumber" />
+    <result column="STD" jdbcType="TIMESTAMP" property="std" />
+    <result column="STA" jdbcType="TIMESTAMP" property="sta" />
+    <result column="DEP4CODE" jdbcType="VARCHAR" property="dep4code" />
+    <result column="ARR4CODE" jdbcType="VARCHAR" property="arr4code" />
+    <result column="DEP_CITY_NAME" jdbcType="VARCHAR" property="depCityName" />
+    <result column="ARR_CITY_NAME" jdbcType="VARCHAR" property="arrCityName" />
+    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+    <result column="IS_LIMITED" jdbcType="DECIMAL" property="isLimited" />
+    <result column="is_start" jdbcType="DECIMAL" property="isStart" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="haveNotam_flag" jdbcType="DECIMAL" property="haveNotamFlag" />
+    <result column="haveRoute_flag" jdbcType="DECIMAL" property="haveRouteFlag" />
+    <result column="PLAN_ROUTE" jdbcType="VARCHAR" property="planRoute" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FLIGHT_ID, FLIGHT_NUMBER, STD, STA, DEP4CODE, ARR4CODE, DEP_CITY_NAME, ARR_CITY_NAME, 
+    IS_DELETE,IS_LIMITED,  UPDATE_TIME 
+  </sql>
+  
+  <select id="selectClobByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    PLAN_ROUTE,
+    <include refid="Base_Column_List" />
+    from FLIGHT
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectBaseByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from FLIGHT
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from FLIGHT
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    insert into FLIGHT (FLIGHT_ID, FLIGHT_NUMBER, STD, 
+      STA, DEP4CODE, ARR4CODE, 
+      DEP_CITY_NAME, ARR_CITY_NAME, IS_DELETE,IS_LIMITED, PLAN_ROUTE
+       UPDATE_TIME
+      )
+    values (#{flightId,jdbcType=VARCHAR}, #{flightNumber,jdbcType=VARCHAR}, #{std,jdbcType=TIMESTAMP}, 
+      #{sta,jdbcType=TIMESTAMP}, #{dep4code,jdbcType=VARCHAR}, #{arr4code,jdbcType=VARCHAR}, 
+      #{depCityName,jdbcType=VARCHAR}, #{arrCityName,jdbcType=VARCHAR}, #{isDelete,jdbcType=DECIMAL}, 
+      #{isLimited,jdbcType=DECIMAL},#{planRoute,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    insert into FLIGHT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flightId != null">
+        FLIGHT_ID,
+      </if>
+      <if test="flightNumber != null">
+        FLIGHT_NUMBER,
+      </if>
+      <if test="std != null">
+        STD,
+      </if>
+      <if test="sta != null">
+        STA,
+      </if>
+      <if test="dep4code != null">
+        DEP4CODE,
+      </if>
+      <if test="arr4code != null">
+        ARR4CODE,
+      </if>
+      <if test="depCityName != null">
+        DEP_CITY_NAME,
+      </if>
+      <if test="arrCityName != null">
+        ARR_CITY_NAME,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+      <if test="isLimited != null">
+        IS_LIMITED,
+      </if>
+      <if test="planRoute != null">
+        PLAN_ROUTE,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flightId != null">
+        #{flightId,jdbcType=VARCHAR},
+      </if>
+      <if test="flightNumber != null">
+        #{flightNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="std != null">
+        #{std,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sta != null">
+        #{sta,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dep4code != null">
+        #{dep4code,jdbcType=VARCHAR},
+      </if>
+      <if test="arr4code != null">
+        #{arr4code,jdbcType=VARCHAR},
+      </if>
+      <if test="depCityName != null">
+        #{depCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="arrCityName != null">
+        #{arrCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="isLimited != null">
+        #{isLimited,jdbcType=DECIMAL},
+      </if>
+      <if test="planRoute != null">
+        #{planRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    update FLIGHT
+    <set>
+      <if test="flightNumber != null">
+        FLIGHT_NUMBER = #{flightNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="std != null">
+        STD = #{std},
+      </if>
+      <if test="sta != null">
+        STA = #{sta},
+      </if>
+      <if test="dep4code != null">
+        DEP4CODE = #{dep4code,jdbcType=VARCHAR},
+      </if>
+      <if test="arr4code != null">
+        ARR4CODE = #{arr4code,jdbcType=VARCHAR},
+      </if>
+      <if test="depCityName != null">
+        DEP_CITY_NAME = #{depCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="arrCityName != null">
+        ARR_CITY_NAME = #{arrCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="isLimited != null">
+        IS_LIMITED = #{isLimited,jdbcType=DECIMAL},
+      </if>
+      <if test="planRoute != null">
+        PLAN_ROUTE = #{planRoute,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime},
+      </if>
+    </set>
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.FlightEntity">
+    update FLIGHT
+    set FLIGHT_NUMBER = #{flightNumber,jdbcType=VARCHAR},
+      STD = #{std,jdbcType=TIMESTAMP},
+      STA = #{sta,jdbcType=TIMESTAMP},
+      DEP4CODE = #{dep4code,jdbcType=VARCHAR},
+      ARR4CODE = #{arr4code,jdbcType=VARCHAR},
+      DEP_CITY_NAME = #{depCityName,jdbcType=VARCHAR},
+      ARR_CITY_NAME = #{arrCityName,jdbcType=VARCHAR},
+      IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      IS_LIMITED = #{isLimited,jdbcType=DECIMAL},
+      PLAN_ROUTE = #{planRoute,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where FLIGHT_ID = #{flightId,jdbcType=VARCHAR}
+  </update>
+  
+	  <select id="listNotTackOffByTime" resultMap="BaseResultMap">
+	  	select 
+	  	<if test="haveClob ==1">
+	  		PLAN_ROUTE,
+	  	</if>
+	  		<include refid="Base_Column_List" />
+	  	from	FLIGHT t
+	  	where t.is_delete = 0 and t.std <![CDATA[ > ]]> #{startTime} and t.std <![CDATA[ <= ]]> #{endTime}
+	  	and t.sta <![CDATA[ <= ]]> #{endTime}
+	  	order by t.std asc
+	  </select>
+  
+  	   <select id="listTackOffByTime" resultMap="BaseResultMap">
+		  	select 
+			  	<if test="haveClob ==1">
+			  		PLAN_ROUTE,
+			  	</if>
+		  		<include refid="Base_Column_List" />
+		  	from	FLIGHT t
+		  	where t.is_delete = 0 and t.std <![CDATA[ <= ]]> #{startTime} and t.sta <![CDATA[ >= ]]> #{startTime}
+		  	order by t.std asc
+	  </select>
+  
+    <select id="listByTimeAndSeat" resultMap="BaseResultMap">
+	  	select 
+	  		<include refid="Base_Column_List" />,
+	  		(case when t.std <![CDATA[ <= ]]> #{startTime} then 1 else 0 end )is_start
+	  	from	FLIGHT t
+	  	where 	t.is_delete = 0
+	  		and ( t.DEP4CODE in 
+	  		  <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		      </foreach>
+	  		 or t.ARR4CODE in 
+	  		   <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		       </foreach>
+	  		)
+	  		<if test="isStart != null">
+	  			<if test="isStart == 'started'">
+					and t.std <![CDATA[ <= ]]> #{startTime} and t.sta <![CDATA[ > ]]> #{startTime}
+	  			</if>
+	  			<if test="isStart == 'wait'">
+	  				and t.std <![CDATA[ > ]]> #{startTime} and t.std <![CDATA[ <= ]]> #{endTime}
+	  			</if>
+	  			<if test="isStart == 'all' ">
+	  				and t.std <![CDATA[ <= ]]> #{endTime} and t.sta <![CDATA[ >= ]]> #{startTime}
+	  			</if>
+	  		</if>
+	  		<if test="type != null">
+	  			and t.is_limited =1
+	  		</if>
+	  	order by t.is_limited desc,t.std asc
+    </select>
+  
+</mapper>

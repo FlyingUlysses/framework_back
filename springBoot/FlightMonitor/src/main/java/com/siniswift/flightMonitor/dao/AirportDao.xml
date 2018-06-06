@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siniswift.flightMonitor.dao.AirportDao">
+  <resultMap id="BaseResultMap" type="com.siniswift.flightMonitor.entity.AirportEntity">
+    <id column="AIRPORT_ID" jdbcType="VARCHAR" property="airportId" />
+    <result column="AIRPORT4CODE" jdbcType="VARCHAR" property="airport4code" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    AIRPORT_ID, AIRPORT4CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AIRPORT
+    where AIRPORT_ID = #{airportId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from AIRPORT
+    where AIRPORT_ID = #{airportId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.siniswift.flightMonitor.entity.AirportEntity">
+    insert into AIRPORT (AIRPORT_ID, AIRPORT4CODE
+      )
+    values (#{airportId,jdbcType=VARCHAR}, #{airport4code,jdbcType=VARCHAR}, #{codeUsage,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.siniswift.flightMonitor.entity.AirportEntity">
+    insert into AIRPORT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="airportId != null">
+        AIRPORT_ID,
+      </if>
+      <if test="airport4code != null">
+        AIRPORT4CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="airportId != null">
+        #{airportId,jdbcType=VARCHAR},
+      </if>
+      <if test="airport4code != null">
+        #{airport4code,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.siniswift.flightMonitor.entity.AirportEntity">
+    update AIRPORT
+    <set>
+      <if test="airport4code != null">
+        AIRPORT4CODE = #{airport4code,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where AIRPORT_ID = #{airportId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.siniswift.flightMonitor.entity.AirportEntity">
+    update AIRPORT
+    set AIRPORT4CODE = #{airport4code,jdbcType=VARCHAR}
+    where AIRPORT_ID = #{airportId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="listAllAirport" resultMap="BaseResultMap">
+  	select * from AIRPORT a  order by airport4code	
+  </select>
+  
+  <select id="showSeat" resultMap="BaseResultMap" >
+  		select t.AIRPORT_ID from AIRPORT_SEAT t where t.SEAT_ID = #{seatId,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="strListairport" resultType="java.lang.String">
+	  	select wm_concat(a.airport4code)strs from airport a left join airport_seat ast on ast.airport_id = a.airport_id
+		left join seat s on s.seat_id = ast.seat_id 
+		where s.state =1 and s.seat_id = #{seatId,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>
