@@ -1,6 +1,5 @@
 package com.siniswift.syncComputerInfo;
 
-import org.hyperic.sigar.SigarException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -9,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class SyncComputerInfoApplication {
 
-	public static void main(String[] args) throws SigarException {
+	public static void main(String[] args) {
 		SpringApplication.run(SyncComputerInfoApplication.class, args);
 	}
 }

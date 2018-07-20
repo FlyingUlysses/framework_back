@@ -1,6 +1,7 @@
 package com.siniswift.syncComputerInfo.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @ClassName:  ComputerInfoEntity   
@@ -18,38 +19,38 @@ public class ComputerInfoEntity implements Serializable{
     
     private String computerCode; 
     
-    private String cpuRate;
+    private Double cpuRate;
+    
+    private Double memoryTotal;
+    
+    private Double memoryUsed;
 	
-	private Double memoryTotal;
-	
-	private Double memoryUsed;
-	
-	private String memoryRate;
-	
-	private String threadRate;
+	private Double memoryRate;
 	
 	private Double diskTotal;
 	
 	private Double diskUsed;
 	
-	private String diskRate;
+	private Double diskRate;
 	
 	private Long threadCount;
 	
-	public String getName() {
-		return name;
+	private Date updateTime;
+	
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
-	public Long getThreadCount() {
-		return threadCount;
+	public Double getCpuRate() {
+		return cpuRate;
 	}
 
-	public void setThreadCount(Long threadCount) {
-		this.threadCount = threadCount;
+	public void setCpuRate(Double cpuRate) {
+		this.cpuRate = cpuRate;
 	}
 
 	public Double getMemoryTotal() {
@@ -68,40 +69,36 @@ public class ComputerInfoEntity implements Serializable{
 		this.memoryUsed = memoryUsed;
 	}
 
-	public String getMemoryRate() {
+	public Double getMemoryRate() {
 		return memoryRate;
 	}
 
-	public void setMemoryRate(String memoryRate) {
+	public void setMemoryRate(Double memoryRate) {
 		this.memoryRate = memoryRate;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public String getCpuRate() {
-		return cpuRate;
-	}
-
-	public void setCpuRate(String cpuRate) {
-		this.cpuRate = cpuRate;
-	}
-
-	public String getThreadRate() {
-		return threadRate;
-	}
-
-	public void setThreadRate(String threadRate) {
-		this.threadRate = threadRate;
-	}
-
-	public String getDiskRate() {
+	public Double getDiskRate() {
 		return diskRate;
 	}
 
-	public void setDiskRate(String diskRate) {
+	public void setDiskRate(Double diskRate) {
 		this.diskRate = diskRate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getThreadCount() {
+		return threadCount;
+	}
+
+	public void setThreadCount(Long threadCount) {
+		this.threadCount = threadCount;
 	}
 
 	public Long getId() {

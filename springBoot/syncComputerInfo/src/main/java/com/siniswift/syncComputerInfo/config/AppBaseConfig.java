@@ -12,7 +12,7 @@ import org.springframework.util.ResourceUtils;
  * @ClassName:  AppBaseConfig   
  * @author: WangYong 
  * @date:   2018年7月16日
- * @Description:app配置类
+ * @Description:app基础配置信息控制类
  */
 @Configuration
 @PropertySource(value="classpath:appBaseConfig.properties")
